@@ -1,0 +1,2056 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forgia Personaggi D&amp;D &amp; Codex Tattico</title>
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2356c4ca'/%3E%3Cpath d='M9 23l14-14M18 9h5v5M11 17l4 4M8 24l2-2' stroke='%23031a1b' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@500;700&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+/* ==========================================================================
+   DESIGN SYSTEM — "lume e verderame"
+   Scena: al tavolo da gioco, la sera, luce bassa e calda; telefono o portatile
+   accanto ai dadi. Tema scuro di default, chiaro per il giorno.
+   Neutri leggermente caldi (tinta 60), un solo accento verderame (tinta 200),
+   semantici per PF: danno rosso, cura verde, attenzione ambra.
+   Un'unica famiglia (Atkinson Hyperlegible: cifre ben distinguibili),
+   la sua versione mono solo per numeri e dadi.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+  --bg: oklch(0.165 0.008 60);
+  --surface: oklch(0.205 0.009 60);
+  --raised: oklch(0.245 0.010 60);
+  --sunk: oklch(0.18 0.008 60);
+  --line: oklch(0.32 0.010 60);
+  --line-strong: oklch(0.56 0.012 60);
+  --ink: oklch(0.95 0.006 80);
+  --ink-2: oklch(0.80 0.010 70);
+  --ink-3: oklch(0.70 0.012 70);
+
+  --accent: oklch(0.80 0.095 200);
+  --accent-fill: oklch(0.76 0.10 200);
+  --accent-fill-hover: oklch(0.82 0.09 200);
+  --on-accent: oklch(0.20 0.03 200);
+  --accent-soft: oklch(0.76 0.10 200 / 0.14);
+  --accent-line: oklch(0.76 0.10 200 / 0.55);
+
+  --danger: oklch(0.72 0.16 25);
+  --danger-soft: oklch(0.72 0.16 25 / 0.13);
+  --danger-line: oklch(0.72 0.16 25 / 0.5);
+  --ok: oklch(0.78 0.14 150);
+  --ok-soft: oklch(0.78 0.14 150 / 0.13);
+  --ok-line: oklch(0.78 0.14 150 / 0.5);
+  --warn: oklch(0.82 0.12 80);
+  --warn-soft: oklch(0.82 0.12 80 / 0.13);
+
+  --font: "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Atkinson Hyperlegible Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --s10: 40px;
+  --r: 8px;        /* controlli: pulsanti, campi, segmenti */
+  --r-lg: 12px;    /* pannelli */
+  --r-chip: 999px; /* solo chip/condizioni */
+  --shadow: none;
+  --ease: cubic-bezier(0.25, 1, 0.5, 1); /* ease-out-quart */
+  --topbar-h: 64px;
+
+  /* z-index semantici */
+  --z-sticky: 10;
+  --z-nav: 20;
+  --z-toast: 40;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: oklch(0.972 0.002 60);
+  --surface: oklch(0.995 0.001 60);
+  --raised: oklch(0.945 0.003 60);
+  --sunk: oklch(0.985 0.002 60);
+  --line: oklch(0.88 0.004 60);
+  --line-strong: oklch(0.60 0.006 60);
+  --ink: oklch(0.22 0.010 60);
+  --ink-2: oklch(0.40 0.010 60);
+  --ink-3: oklch(0.48 0.010 60);
+
+  --accent: oklch(0.48 0.09 205);
+  --accent-fill: oklch(0.48 0.09 205);
+  --accent-fill-hover: oklch(0.42 0.09 205);
+  --on-accent: oklch(0.99 0.005 200);
+  --accent-soft: oklch(0.48 0.09 205 / 0.09);
+  --accent-line: oklch(0.48 0.09 205 / 0.45);
+
+  --danger: oklch(0.52 0.18 25);
+  --danger-soft: oklch(0.52 0.18 25 / 0.08);
+  --danger-line: oklch(0.52 0.18 25 / 0.45);
+  --ok: oklch(0.50 0.12 150);
+  --ok-soft: oklch(0.50 0.12 150 / 0.08);
+  --ok-line: oklch(0.50 0.12 150 / 0.45);
+  --warn: oklch(0.52 0.11 70);
+  --warn-soft: oklch(0.52 0.11 70 / 0.1);
+  --shadow: 0 1px 2px oklch(0.22 0.01 60 / 0.06), 0 2px 8px oklch(0.22 0.01 60 / 0.04);
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+* { box-sizing: border-box; }
+html { scrollbar-color: var(--line-strong) transparent; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 var(--font);
+  min-height: 100vh;
+  padding-bottom: var(--s10);
+}
+::selection { background: var(--accent-soft); color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--font); font-weight: 700; margin: 0; color: var(--ink); line-height: 1.25; text-wrap: balance; }
+p { text-wrap: pretty; }
+a { color: var(--accent); text-underline-offset: 3px; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { touch-action: manipulation; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ic { width: 1.15em; height: 1.15em; flex: none; fill: currentColor; vertical-align: -0.2em; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ==========================================================================
+   BARRA SUPERIORE
+   ========================================================================== */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: 0 var(--s5);
+}
+.topbar-inner {
+  max-width: 1480px;
+  min-height: var(--topbar-h);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3) var(--s6);
+}
+.brand { display: flex; align-items: center; gap: var(--s3); min-width: 0; }
+.brand-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--r);
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  display: grid; place-items: center;
+  flex: none;
+}
+.brand-icon .ic { width: 22px; height: 22px; }
+.brand-text { display: flex; flex-direction: column; min-width: 0; }
+.brand-title { font-size: 1.05rem; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+.brand-subtitle { font-size: 0.8rem; color: var(--ink-3); white-space: nowrap; }
+
+/* Segmented controls: modalità, edizione, schede */
+.nav-modes, .edition-selector, .tabs {
+  display: inline-flex;
+  background: var(--sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 3px;
+  gap: 2px;
+}
+.nav-btn, .edition-selector button, .tabs button {
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  font-weight: 600;
+  font-size: 0.9rem;
+  min-height: 34px;
+  padding: 0 var(--s3);
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+  white-space: nowrap;
+  transition: background-color 150ms var(--ease), color 150ms var(--ease);
+}
+.nav-btn:hover, .edition-selector button:hover, .tabs button:hover { color: var(--ink); background: var(--raised); }
+.nav-btn[aria-pressed="true"], .edition-selector button[aria-pressed="true"], .tabs button[aria-selected="true"] {
+  background: var(--accent-fill);
+  color: var(--on-accent);
+}
+.edition-selector button { font-size: 0.85rem; padding: 0 var(--s3); }
+
+.top-actions { display: flex; align-items: center; gap: var(--s2); }
+.btn-theme {
+  width: 38px; height: 38px;
+  border-radius: var(--r);
+  border: 1px solid var(--line);
+  background: var(--raised);
+  color: var(--ink);
+  cursor: pointer;
+  display: grid; place-items: center;
+  transition: border-color 150ms var(--ease);
+}
+.btn-theme:hover { border-color: var(--line-strong); }
+.btn-theme .ic { width: 20px; height: 20px; }
+.btn-theme .i-light { display: none; }
+:root[data-theme="light"] .btn-theme .i-light { display: block; }
+:root[data-theme="light"] .btn-theme .i-dark { display: none; }
+
+/* ==========================================================================
+   PULSANTI
+   ========================================================================== */
+.btn {
+  border: 1px solid var(--line-strong);
+  background: var(--raised);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.9rem;
+  min-height: 38px;
+  padding: 0 var(--s4);
+  border-radius: var(--r);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+  text-decoration: none;
+  transition: background-color 150ms var(--ease), border-color 150ms var(--ease), color 150ms var(--ease);
+}
+.btn:hover { border-color: var(--ink-3); background: var(--surface); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn.primary { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--on-accent); }
+.btn.primary:hover { background: var(--accent-fill-hover); border-color: var(--accent-fill-hover); }
+.btn.danger { color: var(--danger); border-color: var(--danger-line); background: var(--danger-soft); }
+.btn.danger:hover { border-color: var(--danger); }
+.btn.small { font-size: 0.85rem; min-height: 32px; padding: 0 var(--s3); }
+.btns { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
+
+/* ==========================================================================
+   AREA DI LAVORO E MODALITÀ
+   ========================================================================== */
+.app {
+  max-width: 1480px;
+  margin: var(--s6) auto 0;
+  padding: 0 var(--s5);
+  display: grid;
+  gap: var(--s6);
+}
+.app[data-layout="play-only"], .app[data-layout="forge-only"] { grid-template-columns: minmax(0, 1fr); max-width: 1040px; }
+.app[data-layout="play-only"] .builder { display: none !important; }
+.app[data-layout="forge-only"] .sheet { display: none !important; }
+.app[data-layout="split"] { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); align-items: start; }
+/* Solo affiancata: la scheda resta visibile mentre la forgia scorre */
+@media (min-width: 1100px) {
+  .app[data-layout="split"] .sheet {
+    position: sticky;
+    top: calc(var(--topbar-h) + var(--s4));
+    max-height: calc(100vh - var(--topbar-h) - var(--s8));
+    overflow-y: auto;
+    padding-right: var(--s2);
+  }
+  .app[data-layout="split"] .to-builder { display: none; }
+}
+@media (max-width: 1099px) {
+  .app[data-layout="split"] { grid-template-columns: minmax(0, 1fr); }
+  #btn-mode-split { display: none; }
+}
+
+/* ==========================================================================
+   FORGIA
+   ========================================================================== */
+.builder { display: grid; gap: var(--s4); }
+
+/* Pannello creazione rapida */
+.speedrun-dock {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--s4) var(--s5);
+  display: grid;
+  gap: var(--s3);
+  box-shadow: var(--shadow);
+}
+.dock-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s3); }
+.dock-title { display: flex; align-items: center; gap: var(--s2); font-size: 1.05rem; font-weight: 700; }
+.dock-title .ic { color: var(--accent); }
+.dock-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); }
+.dock-levels { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.dock-levels .label { font-size: 0.85rem; font-weight: 600; color: var(--ink-2); margin-right: var(--s1); }
+.lvl-pill {
+  border: 1px solid var(--line);
+  background: var(--sunk);
+  color: var(--ink-2);
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  min-width: 34px;
+  min-height: 32px;
+  padding: 0 var(--s2);
+  cursor: pointer;
+  transition: background-color 150ms var(--ease), border-color 150ms var(--ease), color 150ms var(--ease);
+}
+.lvl-pill:hover { color: var(--ink); border-color: var(--line-strong); }
+.lvl-pill.active { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--on-accent); font-weight: 700; }
+
+/* Navigazione dei passi */
+.stepnav {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 2px var(--s2);
+  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
+}
+.stepnav button {
+  white-space: nowrap;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  border-radius: var(--r);
+  min-height: 34px;
+  padding: 0 var(--s3);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  scroll-snap-align: start;
+  transition: border-color 150ms var(--ease), color 150ms var(--ease);
+}
+.stepnav button:hover { color: var(--ink); border-color: var(--line-strong); }
+.stepnav button .n, .step > h2 .n { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 0.8rem; color: var(--ink-3); font-weight: 500; }
+
+/* Passi */
+.step {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--s5) var(--s6) var(--s6);
+  display: grid;
+  gap: var(--s4);
+  box-shadow: var(--shadow);
+  scroll-margin-top: calc(var(--topbar-h) + var(--s4));
+}
+.step > h2 {
+  font-size: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s2) var(--s3);
+}
+.step > h2 .n { margin-right: -2px; }
+
+.row { display: grid; gap: var(--s3) var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); }
+label.f { display: grid; gap: 6px; font-size: 0.875rem; color: var(--ink-2); font-weight: 600; align-content: start; }
+label.f > :is(input, select, textarea) { font-size: 1rem; color: var(--ink); font-weight: 400; }
+input:not([type=checkbox]):not([type=file]), select, textarea {
+  width: 100%;
+  min-height: 40px;
+  background: var(--sunk);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  padding: 7px var(--s3);
+  caret-color: var(--accent);
+  transition: border-color 150ms var(--ease), box-shadow 150ms var(--ease);
+}
+input::placeholder, textarea::placeholder { color: var(--ink-3); opacity: 1; }
+input:not([type=checkbox]):hover, select:hover, textarea:hover { border-color: var(--ink-3); }
+input:not([type=checkbox]):focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+input:disabled, select:disabled { opacity: 0.55; cursor: not-allowed; }
+input[type=checkbox] { accent-color: var(--accent-fill); width: 18px; height: 18px; margin: 0; flex: none; }
+textarea { font-family: var(--mono); font-size: 0.875rem; min-height: 96px; resize: vertical; line-height: 1.45; }
+
+.hint { font-size: 0.875rem; color: var(--ink-2); margin: 0; line-height: 1.5; }
+.hint b { color: var(--ink); }
+.hint.error { color: var(--danger); }
+.trait {
+  font-size: 0.9375rem;
+  background: var(--sunk);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: var(--s3) var(--s4);
+  white-space: pre-line;
+  max-height: 260px;
+  overflow-y: auto;
+  line-height: 1.55;
+  max-width: 75ch;
+}
+details > summary {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: var(--s2) 0;
+  width: fit-content;
+}
+details > summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.scores { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--s3); }
+.scores label.f { text-align: center; justify-items: stretch; }
+.scores input, .scores select { text-align: center; font-family: var(--mono); font-weight: 700; font-size: 1.05rem; }
+
+.picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)); gap: 2px var(--s4); }
+.pick { display: flex; align-items: center; gap: var(--s2); font-size: 0.95rem; min-height: 36px; }
+.pick .ab { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); }
+.pick.suggest .lbl { text-decoration: underline dotted var(--accent); text-underline-offset: 4px; font-weight: 600; }
+.pick.locked { color: var(--ink-3); }
+.pick.end { align-self: end; }
+.scores.adjust { margin-top: var(--s2); }
+.pick input[data-list="expertise"]:not(:disabled) { accent-color: var(--warn); }
+
+.counter {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  padding: 1px var(--s2);
+  border-radius: 6px;
+  background: var(--sunk);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.counter.over { color: var(--danger); border-color: var(--danger-line); background: var(--danger-soft); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--line);
+  background: var(--sunk);
+  border-radius: var(--r-chip);
+  padding: 2px 4px 2px var(--s3);
+  font-size: 0.875rem;
+}
+.chip button {
+  border: 0; background: none; cursor: pointer; color: var(--ink-3);
+  width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+}
+.chip button:hover { color: var(--danger); background: var(--danger-soft); }
+
+.badge {
+  font-family: var(--font);
+  font-size: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1px 6px;
+  color: var(--ink-2);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge.warn { color: var(--danger); border-color: var(--danger-line); background: var(--danger-soft); }
+.badge.ok { color: var(--ok); border-color: var(--ok-line); background: var(--ok-soft); }
+.badge.gold { color: var(--accent); border-color: var(--accent-line); background: var(--accent-soft); }
+
+.spell-lv { border-top: 1px solid var(--line); padding-top: var(--s2); }
+.spell-lv summary { color: var(--ink); font-weight: 600; display: flex; align-items: baseline; gap: var(--s2); width: auto; }
+.spell { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0 var(--s3); padding: 6px 0; font-size: 0.95rem; align-items: start; }
+.spell > input { margin-top: 3px; }
+.spell small { grid-column: 2; color: var(--ink-3); font-size: 0.8rem; }
+.spell .sdesc { color: var(--ink-2); font-size: 0.82rem; line-height: 1.4; margin-top: 2px; }
+.spell.blocked > span:first-of-type { color: var(--ink-3); }
+
+.pers { display: grid; gap: var(--s4); }
+.pers-row { display: grid; gap: 6px; }
+.pers-ctl { display: flex; gap: var(--s2); }
+.pers-ctl select { flex: 1; min-width: 0; }
+textarea.prose { font-family: var(--font); font-size: 0.95rem; min-height: 0; resize: vertical; }
+
+/* Talenti e aumenti */
+.slots-list { display: grid; }
+.fslot { display: grid; gap: var(--s3); padding: var(--s4) 0; border-top: 1px solid var(--line); }
+.fslot:first-child { border-top: 0; padding-top: 0; }
+.fslot.fixed { font-size: 0.95rem; }
+.grants { display: grid; gap: var(--s4); }
+.grant { display: grid; gap: var(--s2); }
+
+/* ==========================================================================
+   TAVOLO E SCHEDA
+   ========================================================================== */
+.sheet { display: grid; gap: var(--s5); min-width: 0; align-content: start; }
+
+.sheet-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s3); }
+.panel { display: grid; gap: var(--s5); }
+
+.sh-head { display: grid; gap: var(--s1); }
+.sh-head h2 { font-size: 1.75rem; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.sh-head .meta { color: var(--ink-2); font-size: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); }
+
+.notice {
+  display: flex; gap: var(--s3); align-items: flex-start;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--r);
+  padding: var(--s3) var(--s4);
+  font-size: 0.95rem;
+}
+.notice .ic { color: var(--accent); margin-top: 2px; }
+.warns { margin: 0; padding: var(--s3) var(--s4) var(--s3) var(--s8); background: var(--warn-soft); border: 1px solid var(--line); border-radius: var(--r); color: var(--ink); font-size: 0.9rem; display: grid; gap: var(--s1); }
+.warns li::marker { color: var(--warn); }
+
+.play-deck { display: grid; gap: var(--s5); }
+
+/* Pannello vitali: PF a sinistra, numeri chiave a destra */
+.vitals-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--s5);
+  display: grid;
+  gap: var(--s4);
+  box-shadow: var(--shadow);
+}
+.vitals-grid { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(0, 1.35fr); gap: var(--s5) var(--s6); align-items: start; }
+.vital-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4) 0; }
+.vital-box { display: grid; gap: 2px; padding: 0 var(--s4); border-left: 1px solid var(--line); min-width: 0; }
+.vital-box .k { font-size: 0.8rem; color: var(--ink-2); font-weight: 600; }
+.vital-box .v { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 1.6rem; font-weight: 700; line-height: 1.15; color: var(--ink); white-space: nowrap; }
+.vital-box .v small { font-size: 0.6em; font-weight: 500; color: var(--ink-2); margin-left: 2px; }
+.vital-box .sub { font-size: 0.8rem; color: var(--ink-3); overflow-wrap: anywhere; }
+.vital-box.hp-box { border-left: 0; padding: 0; gap: var(--s2); }
+.hp-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--s2); }
+.hp-now { display: flex; align-items: baseline; gap: var(--s2); }
+.hp-now .v { font-size: 2.5rem; line-height: 1; }
+.hp-now .max { font-family: var(--mono); font-size: 1.1rem; color: var(--ink-2); }
+.hp-temp { font-size: 0.85rem; color: var(--accent); font-weight: 600; }
+
+.hp-bar-wrap { width: 100%; height: 8px; background: var(--sunk); border-radius: 4px; overflow: hidden; border: 1px solid var(--line); }
+.hp-bar { height: 100%; width: 100%; background: var(--ok); transform-origin: left center; transition: transform 250ms var(--ease), background-color 250ms var(--ease); }
+.hp-bar.warn { background: var(--warn); }
+.hp-bar.danger { background: var(--danger); }
+
+.hp-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.hp-btn {
+  border: 1px solid var(--line-strong);
+  background: var(--raised);
+  color: var(--ink);
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.875rem;
+  font-weight: 700;
+  min-width: 40px;
+  min-height: 34px;
+  padding: 0 var(--s2);
+  cursor: pointer;
+  transition: border-color 150ms var(--ease), background-color 150ms var(--ease);
+}
+.hp-btn.minus { color: var(--danger); border-color: var(--danger-line); }
+.hp-btn.plus { color: var(--ok); border-color: var(--ok-line); }
+.hp-btn.minus:hover { background: var(--danger-soft); border-color: var(--danger); }
+.hp-btn.plus:hover { background: var(--ok-soft); border-color: var(--ok); }
+.hp-amount { display: flex; gap: 6px; flex: 1 1 220px; }
+.hp-amount input:not([type=checkbox]) { width: 76px; flex: none; text-align: center; font-family: var(--mono); }
+.hp-amount .btn { flex: 1; }
+
+.conditions-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; border-top: 1px solid var(--line); padding-top: var(--s4); }
+.condition-chip {
+  font-size: 0.875rem;
+  min-height: 32px;
+  padding: 0 var(--s3);
+  border-radius: var(--r-chip);
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  transition: background-color 150ms var(--ease), border-color 150ms var(--ease), color 150ms var(--ease);
+}
+.condition-chip:hover { border-color: var(--line-strong); color: var(--ink); }
+.condition-chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--ink); }
+.condition-chip .ic { width: 1em; height: 1em; }
+.condition-chip[aria-pressed="true"] .ic { color: var(--accent); }
+
+.rest-deck { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); }
+.status-line { font-size: 0.875rem; color: var(--ok); min-height: 1.3em; margin: 0; }
+
+/* Sezioni della scheda: un solo livello di pannello, righe separate da linee */
+.sec {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--s4) var(--s5) var(--s5);
+  display: grid;
+  gap: var(--s3);
+  min-width: 0;
+  align-content: start;
+  box-shadow: var(--shadow);
+}
+.sec h3 { font-size: 1.1rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s2); }
+.sec h3 .ic { color: var(--accent); align-self: center; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2); }
+
+.play-attacks { display: grid; }
+.attack-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(110px, auto);
+  gap: 2px var(--s4);
+  align-items: center;
+  padding: var(--s3) 0;
+  border-top: 1px solid var(--line);
+}
+.attack-card:first-child { border-top: 0; padding-top: 0; }
+.atk-title { font-weight: 700; display: flex; align-items: baseline; gap: var(--s2); flex-wrap: wrap; }
+.atk-hit {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: right;
+  white-space: nowrap;
+}
+.atk-dmg { font-family: var(--mono); font-size: 0.95rem; font-weight: 500; color: var(--ink); }
+.atk-notes { grid-column: 1 / -1; font-size: 0.85rem; color: var(--ink-3); }
+
+.slots-interactive { display: grid; }
+.slot-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4); padding: var(--s2) 0; border-top: 1px solid var(--line); }
+.slot-row:first-child { border-top: 0; padding-top: 0; }
+.slot-label { font-weight: 700; min-width: 84px; }
+.slot-pips { display: flex; gap: 2px; flex-wrap: wrap; }
+.slot-pip {
+  width: 36px; height: 36px;
+  border: 0; padding: 0; background: none;
+  display: grid; place-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.slot-pip::before {
+  content: "";
+  width: 20px; height: 20px;
+  border-radius: 5px;
+  background: var(--accent-fill);
+  border: 2px solid var(--accent-fill);
+  transition: background-color 150ms var(--ease), border-color 150ms var(--ease);
+}
+.slot-pip.used::before { background: transparent; border-color: var(--line-strong); }
+.slot-pip:hover::before { border-color: var(--ink); }
+.slot-count { margin-left: auto; font-family: var(--mono); font-size: 0.875rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+.res-list { display: grid; }
+.res-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2) var(--s4); padding: var(--s3) 0; border-top: 1px solid var(--line); }
+.res-card:first-child { border-top: 0; padding-top: 0; }
+.res-name { font-weight: 700; }
+.res-ctrl { display: flex; align-items: center; gap: var(--s2); }
+
+/* Caratteristiche: una striscia, non sei riquadri */
+.abil {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: var(--s4) 0;
+  box-shadow: var(--shadow);
+}
+.ab-tile { text-align: center; display: grid; gap: 2px; justify-items: center; border-left: 1px solid var(--line); padding: 0 var(--s2); }
+.ab-tile:first-child { border-left: 0; }
+.ab-tile .k { font-size: 0.8rem; color: var(--ink-2); font-weight: 700; letter-spacing: 0.04em; }
+.ab-tile .m { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 1.6rem; font-weight: 700; line-height: 1.15; }
+.ab-tile .s { font-family: var(--mono); font-size: 0.875rem; color: var(--ink-3); }
+
+.cols { display: grid; gap: var(--s5); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 720px) { .cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.list { list-style: none; margin: 0; padding: 0; display: grid; }
+.list li {
+  display: grid;
+  grid-template-columns: 14px 34px minmax(0, 1fr) auto;
+  gap: var(--s2);
+  align-items: center;
+  font-size: 0.95rem;
+  padding: 5px 0;
+  border-top: 1px solid var(--line);
+}
+.list li:first-child { border-top: 0; }
+.list .dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--ink-3); }
+.list .dot.on { background: var(--accent-fill); border-color: var(--accent-fill); }
+.list .dot.exp { background: var(--accent-fill); border-color: var(--accent-fill); box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--accent-fill); }
+.list .ab { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); }
+.list .v { font-family: var(--mono); font-variant-numeric: tabular-nums; font-weight: 700; }
+
+.tbl-wrap { overflow-x: auto; max-width: 100%; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+th, td { text-align: left; padding: var(--s2) var(--s3); border-bottom: 1px solid var(--line); vertical-align: top; }
+th:first-child, td:first-child { padding-left: 0; }
+th { font-size: 0.8rem; color: var(--ink-2); font-weight: 600; white-space: nowrap; }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tbody tr:last-child td { border-bottom: 0; }
+
+.pers-list { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; }
+.pers-list dt { font-size: 0.85rem; color: var(--ink-2); margin-top: var(--s2); font-weight: 700; }
+.pers-list dt:first-child { margin-top: 0; }
+.pers-list dd { margin: 0; font-size: 0.95rem; max-width: 75ch; }
+.pers-list .notes { white-space: pre-line; }
+.caster-line { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s4); font-size: 0.95rem; }
+.caster-line b { font-family: var(--mono); }
+
+.feat-group { margin-top: var(--s2); }
+.feat-group h4 { font-size: 0.95rem; color: var(--ink-2); margin: 0 0 var(--s1); display: flex; gap: var(--s2); align-items: baseline; }
+.feat { border-top: 1px solid var(--line); padding: 6px 0; }
+.feat summary { display: flex; gap: var(--s3); align-items: baseline; font-size: 0.95rem; color: var(--ink); width: auto; }
+.feat summary .lv { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); min-width: 2.2em; }
+.feat .d { padding: var(--s2) 0 var(--s2) var(--s8); font-size: 0.925rem; line-height: 1.55; white-space: pre-line; max-width: 78ch; }
+
+/* ==========================================================================
+   BIBLIOGRAFIA E FONTI
+   ========================================================================== */
+.bib-book { margin-top: var(--s4); }
+.bib-book h3 { font-size: 1.05rem; display: flex; flex-wrap: wrap; gap: var(--s3); align-items: baseline; padding-bottom: var(--s2); border-bottom: 1px solid var(--line); }
+.bib-book h3 a { font-size: 0.85rem; font-weight: 500; }
+.bib { list-style: none; margin: var(--s2) 0; padding: 0; display: grid; }
+.bib li { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: var(--s3); font-size: 0.925rem; padding: 4px 0; }
+.bib .pg { font-family: var(--mono); color: var(--accent); font-size: 0.85rem; font-weight: 700; }
+.bib .kind { font-size: 0.8rem; color: var(--ink-3); }
+.cite { font-size: 0.875rem; color: var(--ink-2); }
+
+dialog#src-dlg {
+  width: min(980px, calc(100vw - 24px));
+  max-height: 88vh;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: none; /* the backdrop already separates it */
+}
+dialog#src-dlg::backdrop { background: oklch(0.1 0.01 60 / 0.72); }
+.dlg-head {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2) var(--s4);
+  padding: var(--s4) var(--s5);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.dlg-head h2 { font-size: 1.2rem; }
+.dlg-body { padding: var(--s4) var(--s5) var(--s6); display: grid; gap: var(--s4); }
+.src-tools { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: end; }
+.src-tools label.f { flex: 1 1 220px; }
+.src-group { border: 1px solid var(--line); border-radius: var(--r); padding: var(--s2) var(--s4) var(--s3); margin: 0; }
+.src-group legend { padding: 0 var(--s2); font-weight: 700; display: flex; gap: var(--s2); align-items: center; }
+.src-rows { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); gap: 0 var(--s5); }
+.src-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px var(--s2); align-items: center; padding: 6px 0; font-size: 0.925rem; cursor: pointer; }
+.src-row .ab { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); grid-column: 2; }
+.src-row .ct { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); text-align: right; }
+.src-row.empty { color: var(--ink-3); }
+.mix-toggle { background: var(--sunk); padding: var(--s3) var(--s4); border-radius: var(--r); border: 1px solid var(--line); align-items: flex-start; }
+
+.hits { list-style: none; margin: 0; padding: 0; display: grid; }
+.hit { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s1) var(--s3); padding: var(--s3) 0; border-bottom: 1px solid var(--line); }
+.hit .ty { font-size: 0.8rem; color: var(--ink-3); }
+.hit .refs { grid-column: 1; font-family: var(--mono); font-size: 0.8rem; color: var(--ink-2); }
+.hit .act { grid-row: 1 / span 2; grid-column: 2; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: end; }
+.pill { font-size: 0.75rem; border-radius: 6px; padding: 1px var(--s2); border: 1px solid currentColor; white-space: nowrap; font-weight: 600; }
+.pill.ok { color: var(--ok); }
+.pill.off { color: var(--danger); }
+mark { background: var(--accent-soft); color: var(--ink); font-weight: 700; border-radius: 3px; padding: 0 2px; }
+
+/* Opzioni di classe e varie */
+.xc { border-top: 1px solid var(--line); padding-top: var(--s2); }
+.xc summary { color: var(--ink); font-weight: 600; display: flex; flex-wrap: wrap; gap: var(--s2); align-items: baseline; width: auto; }
+.xc-filter { margin: 6px 0; max-width: 320px; }
+.ab { font-family: var(--mono); font-size: 0.8rem; color: var(--ink-3); }
+.rule-notes { margin: 6px 0 0; padding-left: var(--s5); font-size: 0.9rem; display: grid; gap: var(--s1); max-width: 80ch; }
+.lv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: var(--s2) var(--s3); margin-top: var(--s2); }
+h4.owner { font-size: 0.95rem; color: var(--ink-2); margin: var(--s3) 0 0; }
+h3.sub { font-size: 1rem; margin-top: var(--s2); display: flex; gap: var(--s2); align-items: baseline; flex-wrap: wrap; }
+.cs-block { border-top: 1px solid var(--line); padding-top: var(--s3); display: grid; gap: var(--s2); }
+.cs-head { font-size: 1.05rem; display: flex; gap: var(--s2); flex-wrap: wrap; align-items: baseline; }
+.items { display: grid; }
+.item-row { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s3); align-items: center; border-bottom: 1px solid var(--line); padding: var(--s2) 0; }
+.item-row select { width: auto; }
+table.inv td { padding-top: 6px; padding-bottom: 6px; }
+table.inv input { min-height: 36px; padding: 4px var(--s2); }
+table.inv td:nth-child(2) input, table.inv td:nth-child(3) input { width: 5.5em; }
+.pets { display: grid; gap: var(--s4); }
+.pet { display: grid; gap: 6px; }
+.statblock { border-top: 1px solid var(--line); padding-top: var(--s2); display: grid; gap: 6px; font-size: 0.925rem; }
+.sb-scores { display: flex; flex-wrap: wrap; gap: 6px var(--s4); font-family: var(--mono); font-size: 0.85rem; }
+
+/* ==========================================================================
+   SCHERMI STRETTI E TOCCO
+   ========================================================================== */
+@media (max-width: 760px) {
+  :root { --topbar-h: 56px; }
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .topbar { padding: 0 var(--s3); }
+  .topbar-inner { gap: var(--s2); }
+  .brand-subtitle { display: none; }
+  .brand-title { font-size: 1rem; }
+  .brand-icon { width: 32px; height: 32px; }
+  .ed-long { display: none; }
+  .edition-selector button { padding: 0 var(--s2); }
+  #src-open .src-label { display: none; }
+  /* Modalità in basso, a portata di pollice */
+  .nav-modes {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: var(--z-nav);
+    border-radius: 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+    padding: 6px var(--s3) calc(6px + env(safe-area-inset-bottom));
+    gap: 6px;
+  }
+  .nav-btn { flex: 1; min-height: 52px; flex-direction: column; gap: 2px; font-size: 0.8rem; }
+  .nav-btn .ic { width: 22px; height: 22px; }
+  .app { margin-top: var(--s4); padding: 0 var(--s3); gap: var(--s4); }
+  .step { padding: var(--s4); }
+  .speedrun-dock, .vitals-card, .sec { padding: var(--s4); }
+  .vitals-grid { grid-template-columns: minmax(0, 1fr); }
+  .vital-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); padding-top: var(--s4); }
+  .vital-box { padding: 0 var(--s2); }
+  .vital-box:nth-child(3n + 1) { border-left: 0; padding-left: 0; }
+  .vital-stats .vital-box .v { font-size: 1.35rem; }
+  .to-builder { display: none; }
+  .sheet-bar { justify-content: flex-start; }
+  .sh-head h2 { font-size: 1.5rem; }
+  .abil { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: var(--s4); }
+  .ab-tile:nth-child(4) { border-left: 0; }
+  .scores { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .attack-card { grid-template-columns: minmax(0, 1fr) auto; }
+  .atk-dmg { grid-column: 1 / -1; }
+  .bib li { grid-template-columns: 56px minmax(0, 1fr); }
+  .bib .kind { grid-column: 2; }
+}
+@media (max-width: 560px) {
+  .brand-text { display: none; }
+}
+/* Dita, non puntatori: bersagli da almeno 44px */
+@media (pointer: coarse) {
+  .btn, .btn.small, .hp-btn, .lvl-pill, .stepnav button, .condition-chip, .edition-selector button, .tabs button, .btn-theme { min-height: 44px; }
+  .hp-btn, .lvl-pill, .btn-theme { min-width: 44px; }
+  .slot-pip { width: 44px; height: 44px; }
+  .chip button { width: 44px; height: 44px; margin: -6px -4px -6px 0; }
+  .pick { min-height: 44px; }
+  details > summary { padding: 11px 0; }
+  input:not([type=checkbox]):not([type=file]), select { min-height: 44px; }
+  input[type=checkbox] { width: 22px; height: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+@media print {
+  :root, :root[data-theme] { color-scheme: light; --bg: #fff; --surface: #fff; --raised: #f2f2f2; --sunk: #fff; --line: #c8c8c8; --line-strong: #888; --ink: #111; --ink-2: #333; --ink-3: #555; --accent: #035a63; --accent-fill: #035a63; --on-accent: #fff; --shadow: none; }
+  .topbar, .nav-modes, .builder, .sheet-bar, .hp-controls, .conditions-bar, .rest-deck { display: none !important; }
+  body { background: #fff; color: #000; padding: 0; }
+  .app[data-layout] { display: block; max-width: none; }
+  .app[data-layout] .sheet { display: grid !important; position: static; max-height: none; overflow: visible; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><!-- Phosphor Icons (MIT) --><symbol id="i-sword" viewBox="0 0 256 256"><path d="M216,32H152a8,8,0,0,0-6.34,3.12l-64,83.21L72,108.69a16,16,0,0,0-22.64,0l-12.69,12.7a16,16,0,0,0,0,22.63l20,20-28,28a16,16,0,0,0,0,22.63l12.69,12.68a16,16,0,0,0,22.62,0l28-28,20,20a16,16,0,0,0,22.64,0l12.69-12.7a16,16,0,0,0,0-22.63l-9.64-9.64,83.21-64A8,8,0,0,0,224,104V40A8,8,0,0,0,216,32ZM52.69,216,40,203.32l28-28L80.68,188Zm70.61-8L48,132.71,60.7,120,136,195.31ZM208,100.06l-81.74,62.88L115.32,152l50.34-50.34a8,8,0,0,0-11.32-11.31L104,140.68,93.07,129.74,155.94,48H208Z"/></symbol><symbol id="i-shield" viewBox="0 0 256 256"><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.27,47,25.53a8,8,0,0,0,4.2,0c1-.26,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0Z"/></symbol><symbol id="i-hammer" viewBox="0 0 256 256"><path d="M251.34,112,183.88,44.08a96.1,96.1,0,0,0-135.77,0l-.09.09L34.25,58.4A8,8,0,0,0,45.74,69.53L59.47,55.35a79.92,79.92,0,0,1,18.71-13.9L124.68,88l-96,96a16,16,0,0,0,0,22.63l20.69,20.69a16,16,0,0,0,22.63,0l96-96,14.34,14.34h0L200,163.3a16,16,0,0,0,22.63,0l28.69-28.69A16,16,0,0,0,251.34,112ZM60.68,216,40,195.31l68-68L128.68,148ZM162.34,114.32,140,136.67,119.31,116l22.35-22.35a8,8,0,0,0,0-11.32L94.32,35a80,80,0,0,1,78.23,20.41l44.22,44.51L188,128.66l-14.34-14.34A8,8,0,0,0,162.34,114.32Zm49,37.66-12-12L228,111.25l12,12Z"/></symbol><symbol id="i-book" viewBox="0 0 256 256"><path d="M232,48H160a40,40,0,0,0-32,16A40,40,0,0,0,96,48H24a8,8,0,0,0-8,8V200a8,8,0,0,0,8,8H96a24,24,0,0,1,24,24,8,8,0,0,0,16,0,24,24,0,0,1,24-24h72a8,8,0,0,0,8-8V56A8,8,0,0,0,232,48ZM96,192H32V64H96a24,24,0,0,1,24,24V200A39.81,39.81,0,0,0,96,192Zm128,0H160a39.81,39.81,0,0,0-24,8V88a24,24,0,0,1,24-24h64Z"/></symbol><symbol id="i-sun" viewBox="0 0 256 256"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></symbol><symbol id="i-moon" viewBox="0 0 256 256"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/></symbol><symbol id="i-bolt" viewBox="0 0 256 256"><path d="M215.79,118.17a8,8,0,0,0-5-5.66L153.18,90.9l14.66-73.33a8,8,0,0,0-13.69-7l-112,120a8,8,0,0,0,3,13l57.63,21.61L88.16,238.43a8,8,0,0,0,13.69,7l112-120A8,8,0,0,0,215.79,118.17ZM109.37,214l10.47-52.38a8,8,0,0,0-5-9.06L62,132.71l84.62-90.66L136.16,94.43a8,8,0,0,0,5,9.06l52.8,19.8Z"/></symbol><symbol id="i-pack" viewBox="0 0 256 256"><path d="M168,40.58V32A24,24,0,0,0,144,8H112A24,24,0,0,0,88,32v8.58A56.09,56.09,0,0,0,40,96V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V96A56.09,56.09,0,0,0,168,40.58ZM112,24h32a8,8,0,0,1,8,8v8H104V32A8,8,0,0,1,112,24Zm56,136H88v-8a8,8,0,0,1,8-8h64a8,8,0,0,1,8,8ZM88,176h48v8a8,8,0,0,0,16,0v-8h16v40H88Zm112,40H184V152a24,24,0,0,0-24-24H96a24,24,0,0,0-24,24v64H56V96A40,40,0,0,1,96,56h64a40,40,0,0,1,40,40V216ZM152,88a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h32A8,8,0,0,1,152,88Z"/></symbol><symbol id="i-heart" viewBox="0 0 256 256"><path d="M178,40c-20.65,0-38.73,8.88-50,23.89C116.73,48.88,98.65,40,78,40a62.07,62.07,0,0,0-62,62c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,228.66,240,172,240,102A62.07,62.07,0,0,0,178,40ZM128,214.8C109.74,204.16,32,155.69,32,102A46.06,46.06,0,0,1,78,56c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,155.61,146.24,204.15,128,214.8Z"/></symbol><symbol id="i-dice" viewBox="0 0 256 256"><path d="M192,32H64A32,32,0,0,0,32,64V192a32,32,0,0,0,32,32H192a32,32,0,0,0,32-32V64A32,32,0,0,0,192,32Zm16,160a16,16,0,0,1-16,16H64a16,16,0,0,1-16-16V64A16,16,0,0,1,64,48H192a16,16,0,0,1,16,16ZM104,92A12,12,0,1,1,92,80,12,12,0,0,1,104,92Zm72,0a12,12,0,1,1-12-12A12,12,0,0,1,176,92Zm-72,72a12,12,0,1,1-12-12A12,12,0,0,1,104,164Zm36-36a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm36,36a12,12,0,1,1-12-12A12,12,0,0,1,176,164Z"/></symbol><symbol id="i-tent" viewBox="0 0 256 256"><path d="M255.31,188.75l-64-144A8,8,0,0,0,184,40H72a8,8,0,0,0-7.27,4.69.21.21,0,0,0,0,.06l0,.12,0,0L.69,188.75A8,8,0,0,0,8,200H248a8,8,0,0,0,7.31-11.25ZM64,184H20.31L64,85.7Zm16,0V85.7L123.69,184Zm61.2,0L84.31,56H178.8l56.89,128Z"/></symbol><symbol id="i-coffee" viewBox="0 0 256 256"><path d="M80,56V24a8,8,0,0,1,16,0V56a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,120,64Zm32,0a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,152,64Zm96,56v8a40,40,0,0,1-37.51,39.91,96.59,96.59,0,0,1-27,40.09H208a8,8,0,0,1,0,16H32a8,8,0,0,1,0-16H56.54A96.3,96.3,0,0,1,24,136V88a8,8,0,0,1,8-8H208A40,40,0,0,1,248,120ZM200,96H40v40a80.27,80.27,0,0,0,45.12,72h69.76A80.27,80.27,0,0,0,200,136Zm32,24a24,24,0,0,0-16-22.62V136a95.78,95.78,0,0,1-1.2,15A24,24,0,0,0,232,128Z"/></symbol><symbol id="i-spark" viewBox="0 0 256 256"><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"/></symbol><symbol id="i-hourglass" viewBox="0 0 256 256"><path d="M200,75.64V40a16,16,0,0,0-16-16H72A16,16,0,0,0,56,40V76a16.07,16.07,0,0,0,6.4,12.8L114.67,128,62.4,167.2A16.07,16.07,0,0,0,56,180v36a16,16,0,0,0,16,16H184a16,16,0,0,0,16-16V180.36a16.09,16.09,0,0,0-6.35-12.77L141.27,128l52.38-39.6A16.05,16.05,0,0,0,200,75.64ZM72,40H184V75.64L178.23,80H77.33L72,76Zm56,78L98.67,96h58.4Zm56,98H72V180l48-36v24a8,8,0,0,0,16,0V144.08l48,36.28Z"/></symbol><symbol id="i-star" viewBox="0 0 256 256"><path d="M239.18,97.26A16.38,16.38,0,0,0,224.92,86l-59-4.76L143.14,26.15a16.36,16.36,0,0,0-30.27,0L90.11,81.23,31.08,86a16.46,16.46,0,0,0-9.37,28.86l45,38.83L53,211.75a16.38,16.38,0,0,0,24.5,17.82L128,198.49l50.53,31.08A16.4,16.4,0,0,0,203,211.75l-13.76-58.07,45-38.83A16.43,16.43,0,0,0,239.18,97.26Zm-15.34,5.47-48.7,42a8,8,0,0,0-2.56,7.91l14.88,62.8a.37.37,0,0,1-.17.48c-.18.14-.23.11-.38,0l-54.72-33.65a8,8,0,0,0-8.38,0L69.09,215.94c-.15.09-.19.12-.38,0a.37.37,0,0,1-.17-.48l14.88-62.8a8,8,0,0,0-2.56-7.91l-48.7-42c-.12-.1-.23-.19-.13-.5s.18-.27.33-.29l63.92-5.16A8,8,0,0,0,103,91.86l24.62-59.61c.08-.17.11-.25.35-.25s.27.08.35.25L153,91.86a8,8,0,0,0,6.75,4.92l63.92,5.16c.15,0,.24,0,.33.29S224,102.63,223.84,102.73Z"/></symbol><symbol id="i-up" viewBox="0 0 256 256"><path d="M205.66,117.66a8,8,0,0,1-11.32,0L136,59.31V216a8,8,0,0,1-16,0V59.31L61.66,117.66a8,8,0,0,1-11.32-11.32l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,205.66,117.66Z"/></symbol><symbol id="i-down" viewBox="0 0 256 256"><path d="M205.66,149.66l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L120,196.69V40a8,8,0,0,1,16,0V196.69l58.34-58.35a8,8,0,0,1,11.32,11.32Z"/></symbol><symbol id="i-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol><symbol id="i-plus" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"/></symbol><symbol id="i-minus" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"/></symbol><symbol id="i-columns" viewBox="0 0 256 256"><path d="M104,32H64A16,16,0,0,0,48,48V208a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V48A16,16,0,0,0,104,32Zm0,176H64V48h40ZM192,32H152a16,16,0,0,0-16,16V208a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V48A16,16,0,0,0,192,32Zm0,176H152V48h40Z"/></symbol><symbol id="i-info" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></symbol><symbol id="i-warn" viewBox="0 0 256 256"><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,144V104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,180Z"/></symbol><symbol id="i-scroll" viewBox="0 0 256 256"><path d="M96,104a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H104A8,8,0,0,1,96,104Zm8,40h64a8,8,0,0,0,0-16H104a8,8,0,0,0,0,16Zm128,48a32,32,0,0,1-32,32H88a32,32,0,0,1-32-32V64a16,16,0,0,0-32,0c0,5.74,4.83,9.62,4.88,9.66h0A8,8,0,0,1,24,88a7.89,7.89,0,0,1-4.79-1.61h0C18.05,85.54,8,77.61,8,64A32,32,0,0,1,40,32H176a32,32,0,0,1,32,32V168h8a8,8,0,0,1,4.8,1.6C222,170.46,232,178.39,232,192ZM96.26,173.48A8.07,8.07,0,0,1,104,168h88V64a16,16,0,0,0-16-16H67.69A31.71,31.71,0,0,1,72,64V192a16,16,0,0,0,32,0c0-5.74-4.83-9.62-4.88-9.66A7.82,7.82,0,0,1,96.26,173.48ZM216,192a12.58,12.58,0,0,0-3.23-8h-94a26.92,26.92,0,0,1,1.21,8,31.82,31.82,0,0,1-4.29,16H200A16,16,0,0,0,216,192Z"/></symbol></svg>
+
+<!-- TOP APPLICATION BAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true"><svg class="ic"><use href="#i-sword"/></svg></div>
+      <div class="brand-text">
+        <div class="brand-title">Forgia &amp; Codex</div>
+        <div class="brand-subtitle">D&amp;D 5e / 2024 · Motore MPMB</div>
+      </div>
+    </div>
+
+    <!-- Mode Navigation -->
+    <nav class="nav-modes" aria-label="Modalità">
+      <button type="button" class="nav-btn" id="btn-mode-play" data-mode="play" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-dice"/></svg>Tavolo</button>
+      <button type="button" class="nav-btn" id="btn-mode-forge" data-mode="forge" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-hammer"/></svg>Forgia</button>
+      <button type="button" class="nav-btn" id="btn-mode-split" data-mode="split" aria-pressed="false" title="Forgia e scheda affiancate"><svg class="ic" aria-hidden="true"><use href="#i-columns"/></svg>Affiancata</button>
+    </nav>
+
+    <!-- Actions -->
+    <div class="top-actions">
+      <div class="edition-selector" role="group" aria-label="Edizione delle regole" id="edition"></div>
+      <button type="button" class="btn small" id="src-open" aria-haspopup="dialog"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg><span class="src-label">Fonti</span></button>
+      <button type="button" class="btn-theme" id="btn-theme" title="Tema chiaro / scuro" aria-label="Tema chiaro" aria-pressed="false"><svg class="ic i-dark" aria-hidden="true"><use href="#i-sun"/></svg><svg class="ic i-light" aria-hidden="true"><use href="#i-moon"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN APP WORKSPACE -->
+<main class="app" id="app" data-layout="play-only">
+  <form class="builder" id="builder" autocomplete="off"></form>
+  <section class="sheet" id="sheet" aria-label="Scheda del personaggio"></section>
+</main>
+<p class="sr-only" id="live" role="status" aria-live="polite"></p>
+
+<!-- DIALOG FONTI -->
+<dialog id="src-dlg" aria-labelledby="src-title">
+  <div class="dlg-head">
+    <h2 id="src-title">Fonti dei manuali</h2>
+    <div class="tabs" role="tablist" aria-label="Sezione" id="src-tabs"></div>
+    <button type="button" class="btn small" data-src="close">Chiudi</button>
+  </div>
+  <div id="src-body" class="dlg-body"></div>
+</dialog>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script>
+const E = window.MPMB_ENGINE, ALL = window.MPMB_DATA, STORE = 'mpmb-builder-v1';
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const byName = o => Object.entries(o).sort((a, b) => a[1].name.localeCompare(b[1].name));
+const opts = (pairs, sel, empty) => (empty ? `<option value="">${empty}</option>` : '') + pairs.map(([v, l]) => `<option value="${esc(v)}"${String(v) === String(sel) ? ' selected' : ''}>${esc(l)}</option>`).join('');
+const SCHOOL = { Abjur: 'Abiurazione', Conj: 'Evocazione', Div: 'Divinazione', Ench: 'Ammaliamento', Evoc: 'Invocazione', Illus: 'Illusione', Necro: 'Necromanzia', Trans: 'Trasmutazione' };
+const persText = x => (Array.isArray(x) ? x[1] : String(x ?? '')).replace(/\*\*/g, '');
+const PERS = [['trait', 'Tratto della personalità', 'd8'], ['ideal', 'Ideale', 'd6'], ['bond', 'Legame', 'd6'], ['flaw', 'Difetto', 'd6']];
+const SPEED_IT = { fly: 'volo', swim: 'nuoto', climb: 'scalata', burrow: 'scavo' };
+const ACTION_IT = { action: 'Azione', 'bonus action': 'Azione bonus', reaction: 'Reazione' };
+const ic = n => `<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+// one polite live region for confirmations (the sheet itself is not live: it re-renders on every change)
+const announce = t => { const l = $('#live'); if (l) { l.textContent = ''; setTimeout(() => { l.textContent = t; }, 30); } };
+
+// Application View & Filter States
+let appLayout = 'play'; // 'forge-only' | 'play-only' | 'split'
+let view = 'sheet'; // 'sheet' | 'bib'
+let spellQ = '', spellSchool = '', spellRitual = false, spellChosen = false;
+let resetArmed = false;
+
+// Theme Controller (Light/Dark)
+function setTheme(t) {
+  document.documentElement.dataset.theme = t;
+  const b = $('#btn-theme');
+  b.setAttribute('aria-pressed', t === 'light');
+}
+function initTheme() {
+  let saved = 'dark';
+  try { saved = localStorage.getItem('mpmb-theme') || 'dark'; } catch { }
+  setTheme(saved);
+}
+$('#btn-theme').addEventListener('click', () => {
+  const cur = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+  setTheme(cur);
+  try { localStorage.setItem('mpmb-theme', cur); } catch { }
+});
+initTheme();
+
+function applySpellFilter() {
+  const rows = [...document.querySelectorAll('#builder .spell')];
+  if (!rows.length) return;
+  const q = spellQ.trim().toLowerCase(), filtering = q || spellSchool || spellRitual || spellChosen;
+  let shown = 0;
+  rows.forEach(r => {
+    r.hidden = (q && !r.dataset.name.includes(q)) || (spellSchool && r.dataset.school !== spellSchool) || (spellRitual && !r.dataset.ritual) || (spellChosen && !r.dataset.chosen);
+    if (!r.hidden) shown++;
+  });
+  document.querySelectorAll('#builder .spell-lv').forEach(d => {
+    const any = [...d.querySelectorAll('.spell')].some(r => !r.hidden);
+    d.hidden = !any;
+    if (filtering && any) d.open = true;
+  });
+  const sc = $('#spell-count');
+  if (sc) sc.textContent = filtering ? (shown ? `${shown} incantesimi trovati.` : 'Nessun incantesimo corrisponde ai filtri.') : '';
+}
+const md = s => esc(s).replace(/##(.+?)##/g, '<strong>$1</strong>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+const otherEd = () => st.edition === '2014' ? '2024' : '2014';
+const full = () => st.mixOther ? E.mergeEditions(ALL[st.edition], ALL[otherEd()], otherEd()) : ALL[st.edition];
+let dataWarning = '';
+function data() {
+  const all = full(), F = E.filterData(all, st);
+  const empty = ['races', 'classes', 'backgrounds'].filter(t => !Object.keys(F[t]).length);
+  dataWarning = empty.length ? `Le fonti scelte escludono tutte le voci di: ${empty.join(', ')}. Uso tutte le fonti finché non ne includi almeno una.` : '';
+  return empty.length ? all : F;
+}
+function abbr(item) {
+  const src = item?.src || [], ex = st.excludedSources || [], S = full().sources || {};
+  const inc = src.filter(([c]) => !ex.includes(c));
+  const pick = inc.find(([c]) => !/^SRD/.test(c)) || inc[0] || src[0];
+  return pick ? (S[pick[0]]?.abbr || pick[0]) : '';
+}
+const lab = item => item.name + (abbr(item) ? ` · ${abbr(item)}` : '');
+
+function blank(edition) {
+  const D = ALL[edition], first = o => Object.keys(o).sort()[0];
+  return {
+    edition, name: '', player: '', level: 1, race: first(D.races), subrace: '', cls: 'fighter', subclass: '', background: first(D.backgrounds),
+    method: 'standard', base: [15, 14, 13, 12, 10, 8], adjust: [0, 0, 0, 0, 0, 0], bgBonus: { mode: '21', plus2: '', plus1: '' },
+    skills: [], expertise: [], armour: '', shield: false, weapons: [], spells: [], featureChoices: {}, originFeat: '', hpBonus: 0, notes: '',
+    personality: { trait: '', ideal: '', bond: '', flaw: '' }, excludedSources: E.defaultExcluded(D), excludedItems: [],
+    originFeatChoice: '', asi: [], extraFeats: [], extraChoices: {}, masteries: [], bonusSpells: {},
+    levels: [], subclasses: {}, classSpells: {}, raceBonus: { mode: '21', plus2: '', plus1: '', plus3: '' }, bgVariant: '', alignment: '',
+    magicItems: [], inventory: [], coins: { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 }, companion: '', companions: {}, wildForms: [],
+    hpCurrent: null, hpTemp: 0, spentSlots: {}, spentPact: 0, spentLimited: {}, conditions: [], inspiration: false, spentHitDice: 0
+  };
+}
+
+function sample() {
+  const c = Object.assign(blank('2024'), { example: true, name: 'Lyra Ventoargento', level: 3, race: 'elf', subrace: 'high', cls: 'wizard', subclass: 'wizard-evoker',
+    background: 'sage', base: [8, 13, 14, 15, 12, 10], bgBonus: { mode: '21', plus2: 3, plus1: 2 }, skills: ['Investigation', 'Insight', 'Perception'],
+    weapons: ['quarterstaff', 'dagger'] });
+  c.spells = ['fire bolt', 'mage hand', 'light', 'magic missile', 'shield', 'mage armor', 'detect magic', 'misty step', 'scorching ray'];
+  const bg = ALL['2024'].backgrounds.sage;
+  c.personality = { trait: bg.trait[3], ideal: persText(bg.ideal[0]), bond: bg.bond[1], flaw: bg.flaw[0] };
+  c.notes = 'Capelli argentei, occhiali tondi. Ha lasciato la biblioteca di Candlekeep per inseguire un libro rubato.';
+  return c;
+}
+
+let st;
+try { st = JSON.parse(localStorage.getItem(STORE)); } catch { }
+if (!st || !ALL[st.edition]) st = sample();
+const save = () => { try { localStorage.setItem(STORE, JSON.stringify(st)); } catch { } };
+
+function sanitize() {
+  if (!Array.isArray(st.excludedSources)) st.excludedSources = E.defaultExcluded(full());
+  if (!Array.isArray(st.excludedItems)) st.excludedItems = [];
+  const D = data();
+  if (!D.races[st.race]) st.race = Object.keys(D.races).sort()[0];
+  if (!D.races[st.race].variants?.includes(st.subrace)) st.subrace = D.races[st.race].variants?.[0] || '';
+  if (!D.classes[st.cls]) st.cls = D.classes.fighter ? 'fighter' : Object.keys(D.classes)[0];
+  if (!D.classes[st.cls].subclasses.includes(st.subclass)) st.subclass = D.classes[st.cls].subclasses[0] || '';
+  if (!D.backgrounds[st.background]) st.background = Object.keys(D.backgrounds)[0];
+  st.weapons = (st.weapons || []).filter(k => D.weapons[k]);
+  for (const [k, v] of [['asi', []], ['extraFeats', []], ['masteries', []], ['extraChoices', {}], ['bonusSpells', {}], ['featureChoices', {}]]) if (!st[k] || typeof st[k] !== 'object') st[k] = v;
+  if (st.armour && !D.armour[st.armour]) st.armour = '';
+  if (st.originFeat && !D.feats[st.originFeat]) st.originFeat = '';
+  st.masteries = st.masteries.filter(k => D.weapons[k]?.mastery);
+  for (const [k, v] of [['levels', []], ['subclasses', {}], ['classSpells', {}], ['magicItems', []], ['inventory', []], ['coins', {}], ['raceBonus', { mode: '21' }], ['bgBonus', { mode: '21' }], ['companions', {}], ['wildForms', []], ['spentSlots', {}], ['spentLimited', {}], ['conditions', []]]) if (!st[k] || typeof st[k] !== 'object') st[k] = v;
+  
+  const lv = [];
+  for (let i = 0; i < (+st.level || 1); i++) lv.push(i === 0 ? st.cls : (D.classes[st.levels[i]] ? st.levels[i] : lv[i - 1]));
+  st.levels = lv;
+  st.subclasses[st.cls] = st.subclass;
+  for (const k of new Set(lv)) if (!D.classes[k].subclasses.includes(st.subclasses[k])) st.subclasses[k] = D.classes[k].subclasses[0] || '';
+  st.subclass = st.subclasses[st.cls];
+  if (st.bgVariant && !(D.backgrounds[st.background].variants || []).includes(st.bgVariant)) st.bgVariant = '';
+  st.magicItems = st.magicItems.filter(it => it && D.magicItems?.[it.key]);
+  if (st.spells && st.spells.length && !st.classSpells[st.cls]) st.classSpells[st.cls] = st.spells;
+  st.spells = [];
+  const sc = E.compute(st, D);
+  const castingKeys = new Set(sc.castings.map(cs => cs.cls));
+  for (const k of Object.keys(st.classSpells)) if (!castingKeys.has(k)) delete st.classSpells[k];
+  sc.castings.forEach(cs => {
+    const learn = new Set(E.spellOptions(st, D, cs).map(x => x.key));
+    st.classSpells[cs.cls] = (st.classSpells[cs.cls] || []).filter(k => learn.has(k));
+  });
+  st.personality = Object.assign({ trait: '', ideal: '', bond: '', flaw: '' }, st.personality);
+  if (typeof st.notes !== 'string') st.notes = '';
+  if (st.hpCurrent == null || st.hpCurrent > sc.hp) st.hpCurrent = sc.hp;
+  st.hpTemp = Math.max(0, +st.hpTemp || 0);
+}
+
+// Speedrun Helpers
+function speedrunOptimizeAbilityScores() {
+  const D = data();
+  const cls = D.classes[st.cls];
+  if (!cls) return;
+  const pri = cls.primaryAbility?.toLowerCase() || '';
+  const map = {
+    barbarian: [0, 2, 1, 5, 4, 3],
+    bard: [5, 1, 2, 3, 4, 0],
+    cleric: [4, 2, 1, 0, 3, 5],
+    druid: [4, 2, 1, 3, 0, 5],
+    fighter: pri.includes('dex') ? [1, 2, 0, 4, 3, 5] : [0, 2, 1, 4, 3, 5],
+    monk: [1, 4, 2, 0, 3, 5],
+    paladin: [0, 5, 2, 4, 3, 1],
+    ranger: [1, 4, 2, 3, 0, 5],
+    rogue: [1, 2, 3, 4, 5, 0],
+    sorcerer: [5, 2, 1, 3, 4, 0],
+    warlock: [5, 2, 1, 3, 4, 0],
+    wizard: [3, 1, 2, 4, 5, 0],
+    artificer: [3, 2, 1, 4, 0, 5],
+  };
+  const order = map[st.cls.replace(/@\d+$/, '')] || [0, 1, 2, 3, 4, 5];
+  const std = [15, 14, 13, 12, 10, 8];
+  const newBase = [10, 10, 10, 10, 10, 10];
+  order.forEach((abIdx, rank) => { newBase[abIdx] = std[rank]; });
+  st.method = 'standard';
+  st.base = newBase;
+  render();
+}
+
+function speedrunEquipRecommended() {
+  const D = data();
+  const cls = D.classes[st.cls];
+  if (!cls) return;
+  const hasProf = a => (cls.armor || []).some(x => new RegExp(x, 'i').test(a));
+  if (hasProf('heavy') && D.armour['chain mail']) st.armour = 'chain mail';
+  else if (hasProf('medium') && D.armour['scale mail']) st.armour = 'scale mail';
+  else if (hasProf('light') && D.armour['leather']) st.armour = 'leather';
+  else st.armour = '';
+
+  if (hasProf('shield')) st.shield = true;
+
+  const wProfs = (cls.weapons || []).join(' ').toLowerCase();
+  const pickW = name => Object.keys(D.weapons).find(k => k.toLowerCase() === name.toLowerCase());
+  const martial = wProfs.includes('martial');
+  const primaryW = martial ? (pickW('longsword') || pickW('rapier') || pickW('greatsword')) : (pickW('mace') || pickW('spear') || pickW('quarterstaff') || pickW('dagger'));
+  if (primaryW && !st.weapons.includes(primaryW)) st.weapons = [primaryW];
+  
+  if (D.packs) {
+    const pkKey = Object.keys(D.packs)[0];
+    if (pkKey && D.packs[pkKey]?.items) {
+      st.inventory = D.packs[pkKey].items.map(x => ({ name: x.name, qty: x.amount, weight: x.weight }));
+    }
+  }
+  if (!st.coins.gp) st.coins.gp = 15;
+  render();
+}
+
+const abilOpts = sel => opts(E.ABIL_FULL.map((n, i) => [String(i), n]), sel ?? '', '—');
+
+function choicesHtml(s, D, open) {
+  const multi = s.classes.length > 1;
+  let lastOwner = '';
+  return s.choiceFeatures.map(cf => {
+    const parts = [];
+    const legacy = cf.owner === 'race' || cf.owner === 'subrace' || cf.owner === 'cls:' + st.cls || cf.owner === 'sub:' + st.cls;
+    const idk = legacy ? cf.key : cf.qkey;
+    if (multi && cf.owner !== lastOwner && /^(cls|sub):/.test(cf.owner)) parts.push(`<h4 class="owner">${esc(cf.ownerName)}</h4>`);
+    lastOwner = cf.owner;
+    if (cf.choices.length) {
+      const cur = cf.choices.find(o => o.key === String(cf.current).toLowerCase() || o.name === cf.current)?.key || '';
+      parts.push(`<div class="row"><label class="f">${esc(cf.name)}<select id="f-fc-${esc(idk)}" data-fc="${esc(cf.qkey)}">${opts(cf.choices.map(o => [o.key, o.name + (o.prereq ? ' — ' + o.prereq : '') + (E.checkPrereq(o, s, st, D, o.key) === false ? ' (requisiti mancanti)' : '')]), cur, '— scegli —')}</select></label></div>`);
+    }
+    if (cf.fightingStyle) {
+      const fsFeats = byName(D.feats).filter(([, f]) => f.type === 'fighting style').map(([k, f]) => [k, lab(f)]);
+      parts.push(`<div class="row"><label class="f">${esc(cf.name)} (talento)<select id="f-fc-${esc(idk)}" data-fc="${esc(cf.qkey)}">${opts(fsFeats, cf.current, '— scegli —')}</select></label></div>`);
+    }
+    if (cf.extrachoices.length && (cf.extraCount || cf.auto.length)) {
+      const picked = new Set(cf.picked), auto = new Set(cf.auto), id = 'xc-' + cf.qkey;
+      parts.push(`<details class="xc" data-id="${esc(id)}"${open.has(id) ? ' open' : ''}><summary>${esc(cf.extraname)} ${cf.optional ? '<span class="badge">opzionali</span>' : `<span class="counter${cf.picked.length > cf.extraCount ? ' over' : ''}">${cf.picked.length} / ${cf.extraCount}</span>`}</summary>
+        ${cf.extrachoices.length > 12 ? `<input type="search" class="xc-filter" data-xcfilter="${esc(cf.qkey)}" placeholder="filtra ${esc(cf.extraname.toLowerCase())}…" aria-label="Filtra ${esc(cf.extraname)}">` : ''}
+        <div class="picks">${cf.extrachoices.map(o => { const ok = E.checkPrereq(o, s, st, D, o.key);
+          return `<label class="spell${ok === false ? ' blocked' : ''}" data-xcname="${esc(o.name.toLowerCase())}"><input type="checkbox" data-xc="${esc(cf.qkey)}" value="${esc(o.key)}"${picked.has(o.key) || auto.has(o.key) ? ' checked' : ''}${auto.has(o.key) ? ' disabled' : ''}>
+          <span>${esc(o.name)}${o.src ? ` <span class="ab">${esc(abbr(o))}</span>` : ''}${ok === false ? ' <span class="badge warn">requisiti mancanti</span>' : ''}</span><small>${esc(o.prereq || '')}</small><small class="sdesc">${esc(E.descAt(o.desc, st.level))}</small></label>`; }).join('')}</div></details>`);
+    }
+    if (cf.masteries) {
+      const id = 'mastery';
+      const ws = byName(D.weapons).filter(([, w]) => w.mastery);
+      parts.push(`<details class="xc" data-id="${id}"${open.has(id) ? ' open' : ''}><summary>${esc(cf.name)} <span class="counter${st.masteries.length > s.masteryCount ? ' over' : ''}">${st.masteries.length} / ${s.masteryCount}</span></summary>
+        <div class="picks">${ws.map(([k, w]) => `<label class="pick"><input type="checkbox" data-list="masteries" value="${esc(k)}"${st.masteries.includes(k) ? ' checked' : ''}>${esc(w.name)} <span class="ab">${esc(w.mastery)}</span></label>`).join('')}</div></details>`);
+    }
+    return parts.join('');
+  }).join('');
+}
+
+function featSlotHtml(sl, D, s) {
+  const f = D.feats[sl.feat];
+  if (sl.kind === 'background') return `<div class="fslot fixed"><b>${esc(sl.label)}:</b> ${esc(f ? lab(f) : sl.feat)}${sl.choice ? ` (${esc(sl.choice)})` : ''}</div>`;
+  const base = sl.kind === 'asi' ? `asi.${sl.index}` : sl.kind === 'extra' ? `extraFeats.${sl.index}` : null;
+  const featPath = base ? base + '.feat' : 'originFeat', choicePath = base ? base + '.choice' : 'originFeatChoice';
+  const origin24 = sl.kind === 'origin' && (D.races[st.race]?.ed || st.edition) === '2024';
+  const list = byName(D.feats).filter(([, x]) => origin24 ? x.type === 'origin' : x.type !== 'fighting style')
+    .map(([k, x]) => [k, lab(x) + (x.type && !origin24 ? ` (${x.type})` : '')]);
+  const parts = [`<label class="f">${esc(sl.label)}<select id="f-slot-${sl.id}" data-k="${featPath}">${opts(list, sl.feat, sl.kind === 'asi' ? 'Aumento di caratteristica (+1/+1 o +2)' : '— scegli talento —')}</select></label>`];
+  if (sl.kind === 'asi' && !sl.feat) parts.push(`<label class="f">+1 a<select id="f-slot-${sl.id}-a" data-k="${base}.a">${abilOpts(sl.a)}</select></label><label class="f">+1 a<select id="f-slot-${sl.id}-b" data-k="${base}.b">${abilOpts(sl.b)}</select></label>`);
+  if (f?.choices?.length) parts.push(`<label class="f">Scelta<select id="f-slot-${sl.id}-c" data-k="${choicePath}">${opts(f.choices.map(o => [o.key, o.name]), sl.choice, '— scegli —')}</select></label>`);
+  return `<div class="fslot"><div class="row">${parts.join('')}</div>
+    ${f ? `<p class="hint">${f.prerequisite ? `<b>Prerequisito:</b> ${esc(f.prerequisite)}${E.checkPrereq(f, s, st, D) === false ? ' <span class="badge warn">non soddisfatto</span>' : E.checkPrereq(f, s, st, D) ? ' <span class="badge ok">ok</span>' : ''} · ` : ''}${esc(E.descAt(f.desc, st.level))}</p>` : ''}
+    ${sl.kind === 'extra' ? `<button type="button" class="btn small danger" data-act="rmFeat" data-i="${sl.index}">Rimuovi</button>` : ''}</div>`;
+}
+
+function grantHtml(g, D) {
+  const head = `<div><b>${esc(g.label)}</b> <span class="hint">${esc(g.from)}${g.note ? ' · ' + esc(g.note) : ''}${g.dc ? ` · CD ${g.dc}, attacco ${E.sign(g.attack)} (${g.ability})` : ''}</span></div>`;
+  if (g.fixed) return `<div class="grant">${head}<div class="chips">${g.chosen.map(k => `<span class="chip">${esc(D.spells[k]?.name || k)}</span>`).join('')}</div></div>`;
+  const options = E.grantOptions(g, D).map(o => [o.key, `${o.name} (${o.level ? o.level + '°' : 'trucchetto'})`]);
+  const cur = st.bonusSpells[g.id] || [];
+  return `<div class="grant">${head}<div class="row">${Array.from({ length: g.count }, (_, i) =>
+    `<label class="f">Scelta ${i + 1}<select data-bs="${esc(g.id)}" data-i="${i}">${opts(options, cur[i] || '', options.length ? '— scegli —' : 'nessuna opzione disponibile')}</select></label>`).join('')}</div></div>`;
+}
+
+function originHtml(s, where) {
+  const r = s.abilities.rule;
+  if (!r.key || (where === 'race') !== (r.kind === 'tasha')) return '';
+  const b = st[r.key] || {}, three = r.allowed.length === 3;
+  const sel = (path, label, excl = []) => `<label class="f">${label}<select id="f-${r.key}-${path}" data-k="${r.key}.${path}">${opts(r.allowed.filter(i => !excl.includes(String(i))).map(i => [String(i), E.ABIL_FULL[i]]), b[path] ?? '', '—')}</select></label>`;
+  return `<div class="row"><label class="f">${r.kind === 'tasha' ? "Bonus d'origine" : 'Bonus caratteristiche'}<select id="f-${r.key}-mode" data-k="${r.key}.mode">${opts([['21', '+2 / +1'], ['111', '+1 / +1 / +1']], b.mode || '21')}</select></label>
+    ${b.mode === '111' ? (three ? '' : sel('plus2', '+1 a') + sel('plus1', '+1 a') + sel('plus3', '+1 a')) : sel('plus2', '+2 a') + sel('plus1', '+1 a', [String(b.plus2)])}</div>
+    <p class="hint">${r.kind === 'tasha' ? "Regole 2014: Customizing Your Origin (Tasha p. 8)." : `Regole 2024: ${three && b.mode === '111' ? '+1 a ' + r.allowed.map(i => E.ABIL_FULL[i]).join(', ') : r.free ? 'scelta libera' : 'tra ' + r.allowed.map(i => E.ABIL_FULL[i]).join(', ')}.`}</p>`;
+}
+
+function classesHtml(s, D, open) {
+  const clsOpts = byName(D.classes).map(([k, c]) => [k, lab(c)]);
+  const subs = s.classes.map((e, i) => {
+    const can = e.level >= e.subclassLevel;
+    const list = (D.classes[e.key]?.subclasses || []).map(k => [k, D.subclasses[k] ? lab(D.subclasses[k]) : k]).sort((a, b) => a[1].localeCompare(b[1]));
+    return `<label class="f">Sottoclasse${s.classes.length > 1 ? ' ' + esc(e.name) : ''}${can ? '' : ` (dal liv. ${e.subclassLevel})`}<select id="${i === 0 ? 'f-subclass' : 'f-sub-' + esc(e.key)}" data-sub="${esc(e.key)}"${can ? '' : ' disabled'}>${opts(list, e.subKey)}</select></label>`;
+  }).join('');
+  const grid = st.level > 1 ? `<details class="xc" data-id="levels"${open.has('levels') || s.classes.length > 1 ? ' open' : ''}><summary>Distribuzione multiclasse <span class="counter">${esc(s.classes.map(e => e.name + ' ' + e.level).join(' / '))}</span></summary>
+    <div class="lv-grid">${s.levels.map((k, i) => i === 0 ? `<label class="f">Liv. 1<select disabled aria-label="Livello 1"><option>${esc(D.classes[k]?.name || k)}</option></select></label>`
+      : `<label class="f">Liv. ${i + 1}<select id="f-lv-${i}" data-lv="${i}">${opts(clsOpts, k)}</select></label>`).join('')}</div>
+    <p class="hint">Il 1° livello conferisce tiri salvezza e competenze piene; le classi successive le competenze multiclasse (PHB p. 164).</p></details>` : '';
+  return `<div class="row"><label class="f">Classe${st.level > 1 ? ' iniziale' : ''}<select id="f-cls" data-k="cls">${clsOpts.length ? opts(clsOpts, st.cls) : ''}</select></label>${subs}</div>${grid}`;
+}
+
+function spellBlock(cs, i, s, D, open) {
+  const list = E.spellOptions(st, D, cs), chosen = new Set(st.classSpells[cs.cls] || []);
+  const lim = cs.prepared ?? cs.known;
+  const byLv = {}; list.forEach(x => (byLv[x.level] ||= []).push(x));
+  const id = k => i === 0 ? 'sp-' + k : `sp-${cs.cls}-${k}`;
+  return `<div class="cs-block"><h3 class="cs-head">${esc(cs.name)} ${cs.level} <span class="hint">${cs.ability} · CD ${cs.dc} · attacco ${E.sign(cs.attack)}</span>
+      ${cs.cantrips ? `<span class="counter${cs.picked.cantrips > cs.cantrips ? ' over' : ''}">trucchetti ${cs.picked.cantrips} / ${cs.cantrips}</span>` : ''}
+      ${lim != null ? `<span class="counter${!cs.spellbook && cs.picked.spells > lim ? ' over' : ''}">${cs.spellbook ? 'libro' : cs.prepared != null ? 'preparati' : 'conosciuti'} ${cs.picked.spells}${cs.spellbook ? '' : ' / ' + lim}</span>` : ''}
+      ${cs.schools ? `<span class="counter${cs.offUsed > cs.offAllowed ? ' over' : ''}">fuori scuola ${cs.offUsed} / ${cs.offAllowed}</span>` : ''}</h3>
+    ${cs.spellbook ? `<p class="hint">Prepara <b>${lim}</b> incantesimi dal libro; qui segna quelli scritti nel grimorio.</p>` : ''}
+    ${cs.alwaysPrepared.length ? `<p class="hint">Sempre preparati: <b>${cs.alwaysPrepared.map(k => esc(D.spells[k]?.name || k)).join(', ')}</b></p>` : ''}
+    ${Object.entries(byLv).map(([lv, arr]) => `<details class="spell-lv" data-id="sl-${esc(cs.cls)}-${lv}"${open.has(`sl-${cs.cls}-${lv}`) || (!open.size && lv <= 1 && i === 0) ? ' open' : ''}>
+      <summary>${lv == 0 ? 'Trucchetti' : `Livello ${lv}`} <span class="hint">(${arr.filter(x => chosen.has(x.key)).length}/${arr.length})</span></summary>
+      <div class="picks">${arr.map(x => `<label class="spell" data-name="${esc((x.name + ' ' + (x.desc || '')).toLowerCase())}" data-school="${esc(x.school || '')}" data-ritual="${x.ritual ? 1 : ''}" data-chosen="${chosen.has(x.key) ? 1 : ''}"><input type="checkbox" id="${esc(id(x.key))}" data-cs="${esc(cs.cls)}" value="${esc(x.key)}"${chosen.has(x.key) ? ' checked' : ''}>
+        <span>${esc(x.name)}${x.ritual ? ' <span class="badge">R</span>' : ''}${x.offList ? ' <span class="badge">fuori scuola</span>' : ''}${cs.alwaysPrepared.includes(x.key) ? ' <span class="badge">sempre</span>' : ''}</span><small>${SCHOOL[x.school] || esc(x.school || '')} · ${esc(x.time)} · ${esc(x.range)} · ${esc(abbr(x))}</small><small class="sdesc">${esc(x.desc || '')}</small></label>`).join('')}</div></details>`).join('')}</div>`;
+}
+
+function equipmentHtml(s, D, bg, open) {
+  const inv = s.inventory;
+  const miNames = Object.entries(D.magicItems || {}).sort((a, b) => a[1].name.localeCompare(b[1].name));
+  const cls = D.classes[st.cls];
+  const start = cls.startOptions?.length ? cls.startOptions.map((o, i) => `<button type="button" class="btn small" data-act="addStart" data-i="${i}">Opzione ${o.label}: ${esc([...o.items.map(x => (x.amount > 1 ? x.amount + '× ' : '') + x.name), o.pack ? 'pacchetto ' + o.pack : '', o.gold ? o.gold + ' mo' : ''].filter(Boolean).join(', '))}</button>`).join('') : '';
+  return `<h3 class="sub">Oggetti magici <span class="counter${inv.attuned > 3 ? ' over' : ''}">sintonia ${inv.attuned} / 3</span></h3>
+    <div class="row"><label class="f">Aggiungi oggetto magico<input id="f-mi-add" list="mi-list" data-miadd placeholder="scrivi il nome…" autocomplete="off"></label></div>
+    <datalist id="mi-list">${miNames.map(([k, m]) => `<option value="${esc(m.name)}">${esc([m.rarity, m.attunement ? 'sintonia' : '', abbr(m)].filter(Boolean).join(' · '))}</option>`).join('')}</datalist>
+    <div class="items">${st.magicItems.map((it, i) => { const m = D.magicItems[it.key]; return `<div class="item-row"><b>${esc(m.name)}</b> <span class="ab">${esc([m.rarity, m.type].filter(Boolean).join(' · '))}</span>
+      ${m.attunement ? `<label class="pick"><input type="checkbox" data-miat="${i}"${it.attuned ? ' checked' : ''}>in sintonia</label>` : ''}
+      ${m.choices?.length ? `<select data-mich="${i}" aria-label="Variante di ${esc(m.name)}">${opts(m.choices.map(o => [o.key, o.name]), it.choice || '', '— variante —')}</select>` : ''}
+      <button type="button" class="btn small danger" data-act="rmItem" data-i="${i}">Rimuovi</button>
+      ${m.prerequisite ? `<small class="hint">${esc(m.prerequisite)}</small>` : ''}</div>`; }).join('') || '<p class="hint">Nessun oggetto magico.</p>'}</div>
+    <h3 class="sub">Zaino <span class="counter${inv.total > inv.capacity ? ' over' : ''}">${inv.total} / ${inv.capacity} lb</span></h3>
+    ${!st.inventory.length ? '<p class="hint">Zaino vuoto: aggiungi oggetti qui sotto o usa la dotazione della classe o del background.</p>' : ''}
+    <div class="tbl-wrap"${st.inventory.length ? '' : ' hidden'}><table class="inv"><thead><tr><th>Oggetto</th><th>Q.tà</th><th>Peso (lb)</th><th></th></tr></thead><tbody>
+      ${st.inventory.map((it, i) => `<tr><td><input data-inv="${i}" data-f="name" value="${esc(it.name)}" aria-label="Oggetto"></td><td><input type="number" min="0" data-inv="${i}" data-f="qty" value="${esc(it.qty)}" aria-label="Quantità"></td><td><input type="number" min="0" step="0.1" data-inv="${i}" data-f="weight" value="${esc(it.weight)}" aria-label="Peso"></td><td><button type="button" class="btn small" data-act="rmInv" data-i="${i}" aria-label="Rimuovi">×</button></td></tr>`).join('')}
+    </tbody></table></div>
+    <div class="row">
+      <label class="f">Aggiungi oggetto comune<select data-gearadd>${opts(Object.entries(D.gear || {}).sort((a, b) => a[1].name.localeCompare(b[1].name)).map(([k, g]) => [k, `${g.name} (${g.weight} lb)`]), '', '— scegli —')}</select></label>
+      <label class="f">Aggiungi pacchetto<select data-packadd>${opts(Object.entries(D.packs || {}).map(([k, p]) => [k, p.name]), '', '— scegli —')}</select></label>
+    </div>
+    <div class="btns"><button type="button" class="btn small" data-act="addInv">Riga vuota</button><button type="button" class="btn small" data-act="addBgItems">Dotazione background</button>${start}</div>
+    ${cls.equipment ? `<details class="xc" data-id="clseq"${open.has('clseq') ? ' open' : ''}><summary>Equipaggiamento iniziale di ${esc(cls.name)}</summary><div class="trait">${esc(cls.equipment)}</div></details>` : ''}
+    <h3 class="sub">Monete <span class="hint">(${inv.gpValue} mo in totale)</span></h3>
+    <div class="scores">${['cp', 'sp', 'ep', 'gp', 'pp'].map(k => `<label class="f">${{ cp: 'mr', sp: 'ma', ep: 'me', gp: 'mo', pp: 'mp' }[k]}<input type="number" min="0" id="f-coin-${k}" data-k="coins.${k}" data-num value="${+st.coins[k] || 0}"></label>`).join('')}</div>`;
+}
+
+function renderEdition() {
+  $('#edition').innerHTML = ['2014', '2024'].map(e => `<button type="button" data-ed="${e}" aria-pressed="${st.edition === e}"><span class="ed-long">${e === '2014' ? 'D&amp;D 5e · ' : 'D&amp;D 5.5 · '}</span>${e}</button>`).join('');
+}
+
+function renderBuilder() {
+  const D = data(), s = E.compute(st, D), race = D.races[st.race], cls = D.classes[st.cls], bg = D.backgrounds[st.background];
+  const open = new Set([...document.querySelectorAll('#builder details[open]')].map(d => d.dataset.id));
+  const html = [], steps = [];
+  const step = (id, label, extra = '') => {
+    steps.push([id, label]);
+    return `<section class="step" id="step-${id}" aria-labelledby="h-${id}"><h2 id="h-${id}"><span class="n">${String(steps.length).padStart(2, '0')}</span>${label}${extra}</h2>`;
+  };
+
+  // Speedrun Hero Control Dock
+  const speedrunHero = `<div class="speedrun-dock">
+    <div class="dock-header">
+      <h2 class="dock-title">${ic('bolt')} Creazione rapida</h2>
+      <div class="dock-actions">
+        <button type="button" class="btn small primary" data-act="speedrun-opt" title="Distribuisce la serie standard in base alla classe">Ottimizza caratteristiche</button>
+        <button type="button" class="btn small" data-act="speedrun-equip" title="Armatura, arma e zaino adatti alla classe">${ic('shield')} Dotazione consigliata</button>
+        <button type="button" class="btn small" data-act="jump-play">${ic('dice')} Vai al Tavolo</button>
+      </div>
+    </div>
+    <div class="dock-levels" role="group" aria-label="Livello del personaggio">
+      <span class="label" aria-hidden="true">Livello</span>
+      ${[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20].map(lvl => `<button type="button" class="lvl-pill${st.level === lvl ? ' active' : ''}" data-setlvl="${lvl}" aria-pressed="${st.level === lvl}" aria-label="Livello ${lvl}">${lvl}</button>`).join('')}
+    </div>
+  </div>`;
+
+  html.push(speedrunHero);
+
+  html.push(`${step('id', 'Identità')}<div class="row">
+    <label class="f">Nome personaggio<input id="f-name" data-k="name" value="${esc(st.name)}" placeholder="Senza nome"></label>
+    <label class="f">Giocatore<input id="f-player" data-k="player" value="${esc(st.player)}"></label>
+    <label class="f">Livello totale<select id="f-level" data-k="level" data-num>${opts(Array.from({ length: 20 }, (_, i) => [i + 1, i + 1]), st.level)}</select></label>
+    <label class="f">Allineamento<select id="f-align" data-k="alignment">${opts(['Lawful Good', 'Neutral Good', 'Chaotic Good', 'Lawful Neutral', 'True Neutral', 'Chaotic Neutral', 'Lawful Evil', 'Neutral Evil', 'Chaotic Evil'].map(a => [a, a]), st.alignment, '—')}</select></label>
+  </div></section>`);
+
+  const variants = race.variants || [];
+  const raceWord = st.edition === '2024' ? 'Specie' : st.mixOther ? 'Razza / specie' : 'Razza';
+  html.push(`${step('race', raceWord)}<div class="row">
+    <label class="f">${raceWord}<select id="f-race" data-k="race">${opts(byName(D.races).map(([k, r]) => [k, lab(r)]), st.race)}</select></label>
+    ${variants.length ? `<label class="f">Variante<select id="f-subrace" data-k="subrace">${opts(variants.map(v => [v, D.subraces[st.race + '-' + v] ? lab(D.subraces[st.race + '-' + v]) : v]), st.subrace)}</select></label>` : ''}
+  </div>
+  <p class="hint">Velocità <b>${s.speed} ft</b>${race.scorestxt ? ` · ${esc(race.scorestxt)}` : ''}${race.skillstxt ? ` · Abilità: ${esc(race.skillstxt)}` : ''}</p>
+  ${originHtml(s, 'race')}
+  <details data-id="trait"${open.has('trait') ? ' open' : ''}><summary>Tratti razziali</summary><div class="trait">${md(s.trait)}</div></details></section>`);
+
+  html.push(`${step('cls', s.classes.length > 1 ? 'Classi' : 'Classe')}${classesHtml(s, D, open)}
+  <p class="hint">Dado vita <b>d${cls.die}</b> · Tiri salvezza <b>${cls.saves.join(', ')}</b> · Caratteristica primaria <b>${esc(cls.primaryAbility || '—')}</b>${s.casting && !cls.casterFactor ? ` · Incantatore (${s.casting.ability})` : ''}</p>
+  ${choicesHtml(s, D, open)}</section>`);
+
+  html.push(`${step('feats', 'Talenti e aumenti')}
+    <p class="hint">${s.asi ? `Hai <b>${s.asi}</b> aumenti disponibili: ognuno è +1/+1 (o +2) oppure un talento.` : 'Nessun aumento di caratteristica a questo livello.'}</p>
+    <div class="slots-list">${s.featSlots.map(sl => featSlotHtml(sl, D, s)).join('')}</div>
+    <div class="btns"><button type="button" class="btn small" data-act="addFeat">Aggiungi talento extra</button></div></section>`);
+
+  html.push(`${step('bg', 'Background')}<div class="row">
+    <label class="f">Background<select id="f-bg" data-k="background">${opts(byName(D.backgrounds).map(([k, b]) => [k, lab(b)]), st.background)}</select></label>
+    ${(bg.variants || []).length ? `<label class="f">Variante<select id="f-bgvar" data-k="bgVariant">${opts(bg.variants.filter(v => D.bgVariants?.[v]).map(v => [v, lab(D.bgVariants[v])]), st.bgVariant, '— nessuna —')}</select></label>` : ''}
+  </div>
+  ${originHtml(s, 'bg')}
+  <p class="hint">Abilità <b>${bg.skills.join(', ') || '—'}</b>${bg.tools.length ? ` · Strumenti <b>${esc(bg.tools.join(', '))}</b>` : ''} · ${bg.gold} mo</p></section>`);
+
+  html.push(`${step('pers', 'Personalità e note')}
+    <p class="hint">Scegli dalle tabelle del background ${esc(bg.name)}, tira il dado oppure scrivi a mano.</p>
+    <div class="pers">${PERS.map(([k, label, die]) => `<div class="pers-row">
+      <label class="f" for="f-p-${k}">${label}</label>
+      <div class="pers-ctl"><select id="f-ps-${k}" data-pers="${k}" aria-label="${label}: scegli dalla tabella">${opts((bg[k] || []).map((x, i) => [i, `${i + 1}. ${persText(x).slice(0, 70)}${persText(x).length > 70 ? '…' : ''}`]), '', `— tabella ${die} —`)}</select>
+      <button type="button" class="btn small" data-act="rollPers" data-f="${k}" aria-label="Tira ${die} per ${label}">Tira ${die}</button></div>
+      <textarea id="f-p-${k}" class="prose" data-k="personality.${k}" rows="2">${esc(st.personality[k])}</textarea></div>`).join('')}</div>
+    <label class="f" for="f-notes">Aspetto, storia, appunti</label>
+    <textarea id="f-notes" class="prose" data-k="notes" rows="4" placeholder="Com'è fatto, da dove viene, cosa cerca…">${esc(st.notes)}</textarea></section>`);
+
+  const pbCost = E.pointBuyCost(st.base.map(Number));
+  html.push(`${step('abil', 'Caratteristiche')}<div class="row">
+    <label class="f">Metodo<select id="f-method" data-k="method">${opts([['standard', 'Serie standard (15,14,13,12,10,8)'], ['pointbuy', 'Acquisto a punti (27)'], ['roll', 'Tiro 4d6 (scarta il più basso)'], ['manual', 'Manuale']], st.method)}</select></label>
+    </div>
+    <div class="scores">${E.ABIL.map((a, i) => `<label class="f">${a}${st.method === 'standard'
+      ? `<select id="f-base-${i}" data-k="base.${i}" data-num>${opts(E.STANDARD_ARRAY.map(v => [v, v]), st.base[i])}</select>`
+      : `<input id="f-base-${i}" type="number" data-k="base.${i}" data-num value="${st.base[i]}" min="${st.method === 'pointbuy' ? 8 : 3}" max="${st.method === 'pointbuy' ? 15 : 20}">`}</label>`).join('')}</div>
+    ${st.method === 'pointbuy' ? `<p class="hint">Punti spesi: <span id="pb-counter" class="counter${pbCost > 27 || isNaN(pbCost) ? ' over' : ''}">${isNaN(pbCost) ? 'valori fuori 8–15' : pbCost + ' / 27'}</span></p>` : ''}
+    ${st.method === 'roll' ? `<div class="btns"><button type="button" class="btn small" data-act="roll">Tira 6 × 4d6</button></div>` : ''}
+    ${st.method === 'standard' && new Set(st.base.map(String)).size < 6 ? `<p class="hint error">Ogni valore della serie standard va usato una sola volta.</p>` : ''}
+    <details data-id="adjust"${open.has('adjust') || st.adjust.some(Number) ? ' open' : ''}><summary>Regolazioni manuali</summary>
+    <div class="scores adjust">${E.ABIL.map((a, i) => `<label class="f">${a}<input id="f-adj-${i}" type="number" data-k="adjust.${i}" data-num value="${st.adjust[i]}" min="-10" max="10"></label>`).join('')}</div></details>
+    <p class="hint">Totale calcolato: ${E.ABIL.map((a, i) => `${a} <b class="num">${s.abilities.total[i]}</b>`).join(' · ')}</p></section>`);
+
+  const sp = s.skillPicks, sug = new Set([...(sp.classOptions || []), ...(sp.raceOptions || [])]);
+  html.push(`${step('skills', 'Abilità', `<span class="counter${sp.used > sp.allowed ? ' over' : ''}">${sp.used} / ${sp.allowed}</span>`)}
+    <p class="hint">${esc(cls.skillstxt)}${race.skillstxt ? ' · ' + esc(race.skillstxt) : ''}.</p>
+    <p class="hint">Prima casella: competenza. Seconda casella: maestria (raddoppia il bonus). Le voci sottolineate sono quelle suggerite dalla classe.</p>
+    <div class="picks">${s.skills.map(k => `<div class="pick${k.fixed ? ' locked' : ''}${sug.has(k.name) ? ' suggest' : ''}">
+      <input type="checkbox" id="sk-${esc(k.name)}" data-list="skills" value="${esc(k.name)}"${k.prof ? ' checked' : ''}${k.fixed ? ' disabled' : ''} aria-label="Competenza ${esc(k.name)}">
+      <input type="checkbox" id="ex-${esc(k.name)}" data-list="expertise" value="${esc(k.name)}"${k.exp ? ' checked' : ''}${k.prof ? '' : ' disabled'} aria-label="Maestria ${esc(k.name)}">
+      <label class="lbl" for="sk-${esc(k.name)}">${esc(k.name)}</label><span class="ab">${k.abName}</span></div>`).join('')}</div></section>`);
+
+  html.push(`${step('equip', 'Equipaggiamento')}<div class="row">
+    <label class="f">Armatura<select id="f-armour" data-k="armour">${opts(Object.entries(D.armour).map(([k, a]) => [k, `${a.name} (CA ${a.ac}, ${a.type})`]), st.armour, 'Nessuna')}</select></label>
+    <label class="f">Aggiungi arma<select id="f-addweapon" data-act="addWeapon">${opts(byName(D.weapons).map(([k, w]) => [k, w.name + (w.type ? ` · ${w.type}` : '')]), '', '— scegli —')}</select></label>
+    <label class="pick end"><input type="checkbox" id="f-shield" data-k="shield"${st.shield ? ' checked' : ''}>Scudo (+2 CA)</label>
+    <label class="f">PF extra<input id="f-hpbonus" type="number" data-k="hpBonus" data-num value="${st.hpBonus}"></label>
+  </div>
+  <div class="chips">${st.weapons.map((k, i) => `<span class="chip">${esc(D.weapons[k].name)}<button type="button" data-act="rmWeapon" data-i="${i}" aria-label="Rimuovi ${esc(D.weapons[k].name)}">×</button></span>`).join('') || '<span class="hint">Nessuna arma.</span>'}</div>
+  <p class="hint">Dotazione del background: ${esc(bg.equipment.join(', '))}.</p>
+  ${equipmentHtml(s, D, bg, open)}</section>`);
+
+  if (s.castings.length) {
+    const sl = s.spellSlots;
+    html.push(`${step('spells', 'Incantesimi')}
+      <p class="hint">Slot totali: ${sl.slots.length ? sl.slots.map((n, i) => `${n}×${i + 1}°`).join(', ') : 'nessuno'}${sl.pact ? ` · Patto: ${sl.pact.count}×${sl.pact.level}°` : ''}</p>
+      <div class="row spell-filter">
+        <label class="f">Cerca<input id="f-spellq" type="search" data-filter="q" value="${esc(spellQ)}" placeholder="nome o effetto…"></label>
+        <label class="f">Scuola<select id="f-spellschool" data-filter="school">${opts(Object.entries(SCHOOL), spellSchool, 'Tutte')}</select></label>
+        <label class="pick end"><input type="checkbox" id="f-spellritual" data-filter="ritual"${spellRitual ? ' checked' : ''}>Solo rituali</label>
+        <label class="pick end"><input type="checkbox" id="f-spellchosen" data-filter="chosen"${spellChosen ? ' checked' : ''}>Solo scelti</label>
+      </div>
+      <p class="hint" id="spell-count" role="status"></p>
+      ${s.castings.map((cs, i) => spellBlock(cs, i, s, D, open)).join('')}</section>`);
+  }
+
+  if (s.grants.length) html.push(`${step('bonus', 'Incantesimi bonus')}
+    <p class="hint">Da razza, talenti e privilegi speciali.</p>
+    <div class="grants">${s.grants.map(g => grantHtml(g, D)).join('')}</div></section>`);
+
+  const crs = Object.entries(D.creatures || {}).sort((a, b) => a[1].name.localeCompare(b[1].name));
+  const ws = s.wildShape;
+  html.push(`${step('pets', 'Compagni e forme')}
+    ${s.companionSlots.length ? s.companionSlots.map(sl => sl.kind === 'type'
+      ? `<div class="row"><label class="f">${esc(sl.name)} <span class="ab">da ${esc(sl.from)}</span><select id="f-comp-${esc(sl.type)}" data-comp="${esc(sl.id)}">${opts(sl.forms.map(f => [f.key, `${f.name} · GS ${f.cr} · ${f.type}`]), sl.chosen, `— scegli (${sl.forms.length} forme) —`)}</select></label></div>`
+      : `<p class="hint"><b>${esc(sl.name)}</b> (da ${esc(sl.from)}): scheda inclusa automaticamente.</p>`).join('')
+      : '<p class="hint">Nessun compagno concesso da privilegi o incantesimi.</p>'}
+    <div class="row"><label class="f">Altra creatura (scelta libera, col DM)<select id="f-companion" data-k="companion">${opts(crs.map(([k, m]) => [k, `${m.name} · GS ${m.cr} · ${m.type}`]), st.companion, '— nessuna —')}</select></label></div>
+    ${ws ? `<p class="hint">Forma selvatica (druido ${ws.level}${ws.moon ? ', Circolo Luna' : ''}): GS ≤ ${ws.maxCR}${ws.tempHP != null ? ` · ${ws.tempHP} PF temp.` : ''}.</p>
+      ${ws.known ? `<details class="xc" data-id="wildforms"${open.has('wildforms') ? ' open' : ''}><summary>Forme conosciute <span class="counter${ws.chosen.length > ws.known ? ' over' : ''}">${ws.chosen.length} / ${ws.known}</span></summary>
+        <div class="picks">${ws.forms.map(f => `<label class="pick"><input type="checkbox" data-list="wildForms" value="${esc(f.key)}"${ws.chosen.includes(f.key) ? ' checked' : ''}>${esc(f.name)} <span class="ab">GS ${esc(f.cr)}</span></label>`).join('')}</div></details>`
+        : `<p class="hint">Regole 2014: qualsiasi bestia già vista entro questi limiti.</p>`}` : ''}</section>`);
+
+  html.push(`${step('save', 'Salva e condividi')}
+    <p class="hint">Il personaggio si salva in automatico in questo browser.</p>
+    <div class="btns"><button type="button" class="btn primary" data-act="copy">Copia JSON</button>
+    <button type="button" class="btn" data-act="import">Importa dal testo</button>
+    <label class="btn" for="f-file">Apri file .json</label><input type="file" id="f-file" accept=".json,application/json" hidden>
+    <button type="button" class="btn danger" data-act="reset">${resetArmed ? 'Conferma: cancella tutto' : 'Nuovo personaggio'}</button></div>
+    <textarea id="f-json" aria-label="JSON del personaggio" placeholder="Incolla qui il JSON di un personaggio…"></textarea>
+    <p class="hint" id="io-msg" role="status"></p></section>`);
+
+  const nav = `<nav class="stepnav" aria-label="Passi della creazione">${steps.map(([id, l], i) => `<button type="button" data-goto="step-${id}" title="${esc(l)}"><span class="n">${String(i + 1).padStart(2, '0')}</span> ${esc(l)}</button>`).join('')}</nav>`;
+  $('#builder').innerHTML = nav + html.join('');
+  applySpellFilter();
+}
+
+function profsHtml(s) {
+  const line = (label, list) => list && list.length ? `<dt>${label}</dt><dd>${list.map(esc).join(', ')}</dd>` : '';
+  const senses = Object.entries(s.vision).map(([n, r]) => r ? `${n} ${r} ft` : n);
+  const acts = {}; s.actions.forEach(a => (acts[ACTION_IT[a.type] || a.type] ||= []).push(a.name));
+  const notes = [...new Map(s.notes.map(n => [n.text, n])).values()];
+  return `<div class="cols">
+    <div class="sec"><h3>Competenze</h3><dl class="pers-list">${line('Armature', s.profs.armor)}${line('Armi', s.profs.weapons)}${line('Strumenti', s.profs.tools)}${line('Lingue', s.profs.languages)}</dl></div>
+    <div class="sec"><h3>Difese e sensi</h3><dl class="pers-list">${line('Resistenze', s.defenses.resist)}${line('Immunità', s.defenses.immune)}${line('Vantaggio ai TS contro', s.defenses.adv)}${line('Note sui TS', s.defenses.notes)}${line('Sensi', senses)}
+      ${s.acConditional.length ? line('CA condizionale (non applicata)', s.acConditional) : ''}</dl>${!s.defenses.resist.length && !senses.length && !s.defenses.adv.length ? '<p class="hint">Nessuna.</p>' : ''}</div>
+  </div>
+  ${s.actions.length ? `<div class="sec"><h3>Azioni speciali</h3><dl class="pers-list">${Object.entries(acts).map(([t, l]) => line(t, [...new Set(l)])).join('')}</dl></div>` : ''}
+  ${notes.length ? `<div class="sec"><details class="feat"><summary>Note dalle regole (${notes.length})</summary><ul class="rule-notes">${notes.map(n => `<li>${esc(n.text)} <span class="ab">${esc(n.from)}</span></li>`).join('')}</ul></details></div>` : ''}`;
+}
+
+function statBlock(m) {
+  const mod = v => E.sign(Math.floor((v - 10) / 2));
+  return `<div class="statblock"><b>${esc(m.name)}</b> <span class="ab">${esc([m.type, 'GS ' + m.cr, abbr(m)].filter(Boolean).join(' · '))}</span>
+    <div class="sb-line">CA ${esc(m.ac)}${m.acText ? ` <span class="ab">(${esc(m.acText)})</span>` : ''} · PF ${esc(m.hp)}${m.hd && m.hd[0] ? ` (${m.hd[0]}d${m.hd[1]})` : ''} · Velocità ${esc(m.speed)}${m.pb ? ` · Competenza +${m.pb}` : ''}</div>
+    <div class="sb-scores">${E.ABIL.map((a, i) => `<span><b>${a}</b> ${m.scores?.[i] ?? '—'} (${mod(m.scores?.[i] ?? 10)})</span>`).join('')}</div>
+    ${m.senses ? `<div class="sb-line">${esc(m.senses)}</div>` : ''}
+    ${(m.attacks || []).map(a => `<div class="sb-line"><b>${esc(a.name)}</b>: ${esc(Array.isArray(a.damage) ? `${a.damage[0]}d${a.damage[1]} ${a.damage[2]}` : '')} ${esc(a.range || '')}${a.desc ? ' — ' + esc(a.desc) : ''}</div>`).join('')}
+    ${(m.traits || []).slice(0, 6).map(t => `<div class="sb-line"><i>${esc(t.name)}.</i> ${esc(String(t.desc || '').replace(/\[THIS\]/g, m.name))}</div>`).join('')}</div>`;
+}
+
+function inventoryHtml(s, D) {
+  const inv = s.inventory;
+  if (!inv.rows.length && !inv.gpValue) return '';
+  return `<div class="sec"><h3>Equipaggiamento <span class="hint">${inv.total} lb · capacità ${inv.capacity} lb · ${inv.status}</span></h3>
+    <div class="tbl-wrap"><table><thead><tr><th>Oggetto</th><th>Q.tà</th><th>Peso</th></tr></thead><tbody>
+    ${inv.rows.map(r => `<tr><td>${esc(r.name)}${r.kind === 'magic' ? ` <span class="badge">magico${r.attuned ? ', in sintonia' : ''}</span>` : ''}</td><td class="num">${r.qty}</td><td class="num">${Math.round(r.qty * r.weight * 100) / 100}</td></tr>`).join('')}</tbody></table></div>
+    <p class="hint">Monete: ${['pp', 'gp', 'ep', 'sp', 'cp'].filter(k => inv.coins[k]).map(k => `${inv.coins[k]} ${{ cp: 'mr', sp: 'ma', ep: 'me', gp: 'mo', pp: 'mp' }[k]}`).join(', ') || 'nessuna'} · ingombro (variante): ${inv.encumbered} / ${inv.heavy} lb</p></div>`;
+}
+
+function petsHtml(s, D) {
+  const ws = s.wildShape;
+  const comps = s.companions.map(({ slot, block }) => `<div class="pet"><div class="ab">${esc(slot.name)}${slot.from ? ' · da ' + esc(slot.from) : ''}</div>${statBlock(block)}
+    ${block.notes?.length ? `<details class="feat"><summary>Regole del ${esc(slot.name)}</summary><ul class="rule-notes">${block.notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul></details>` : ''}</div>`).join('');
+  const known = ws?.known ? ws.forms.filter(f => ws.chosen.includes(f.key)) : null;
+  return `${comps ? `<div class="sec"><h3>Compagni</h3><div class="pets">${comps}</div></div>` : ''}
+    ${ws ? `<div class="sec"><details class="feat"${known?.length ? ' open' : ''}><summary>Forma selvatica · GS ≤ ${ws.maxCR}${ws.noFly ? ', no volo' : ''}${ws.noSwim ? ', no nuoto' : ''}${ws.tempHP != null ? ` · ${ws.tempHP} PF temp.` : ''} · ${known ? `${known.length}/${ws.known} forme conosciute` : `${ws.forms.length} forme`}</summary>
+      <div class="tbl-wrap"><table><thead><tr><th>Bestia</th><th>GS</th><th>CA</th><th>PF</th><th>Velocità</th></tr></thead><tbody>
+      ${(known || ws.forms).map(f => `<tr><td>${esc(f.name)}</td><td class="num">${esc(f.cr)}</td><td class="num">${esc(f.ac)}</td><td class="num">${esc(f.hp)}</td><td>${esc(f.speed)}</td></tr>`).join('') || '<tr><td colspan="5" class="hint">Scegli le forme conosciute nel passo «Compagni e forme».</td></tr>'}</tbody></table></div></details></div>` : ''}`;
+}
+
+// Tactical Play Deck Component
+function renderPlayCodexDeck(s, D) {
+  const maxHp = s.hp;
+  const curHp = Math.min(st.hpCurrent ?? maxHp, maxHp);
+  const tempHp = +st.hpTemp || 0;
+  const hpPct = maxHp ? Math.max(0, Math.min(1, curHp / maxHp)) : 0;
+  const hpClass = hpPct <= 0.25 ? 'danger' : hpPct <= 0.5 ? 'warn' : '';
+  const condList = ['Concentrazione', 'Avvelenato', 'Trattenuto', 'Schivata', 'Vantaggio', 'Invisibile', 'Prono', 'Stordito', 'Privo di sensi'];
+  const conds = (st.conditions || []).map(c => c === 'Prone' ? 'Prono' : c === 'Privo di Sensi' ? 'Privo di sensi' : c);
+  const sl = s.spellSlots, sg = E.sign;
+  const otherSpeeds = Object.entries(s.speeds).filter(([k]) => k !== 'walk').map(([k, v]) => `${SPEED_IT[k] || k} ${v}`);
+  const vital = (k, v, sub, title) => `<div class="vital-box"${title ? ` title="${esc(title)}"` : ''}><span class="k">${k}</span><span class="v">${v}</span>${sub ? `<span class="sub">${sub}</span>` : ''}</div>`;
+  const pip = (act, lv, i, used, label) => `<button type="button" class="slot-pip${used ? ' used' : ''}" data-act="${act}"${lv ? ` data-lv="${lv}"` : ''} data-idx="${i}" aria-pressed="${used}" aria-label="${label} ${i + 1}: ${used ? 'usato' : 'disponibile'}"></button>`;
+
+  return `<div class="play-deck">
+    <div class="vitals-card">
+      <div class="vitals-grid">
+        <div class="vital-box hp-box">
+          <div class="hp-top"><span class="k">Punti ferita</span>${tempHp ? `<span class="hp-temp">+${tempHp} temporanei</span>` : ''}</div>
+          <div class="hp-now"><span class="v" id="hp-current">${curHp}</span><span class="max">/ ${maxHp}</span></div>
+          <div class="hp-bar-wrap" role="meter" aria-label="Punti ferita" aria-valuemin="0" aria-valuemax="${maxHp}" aria-valuenow="${curHp}"><div class="hp-bar ${hpClass}" style="transform:scaleX(${hpPct})"></div></div>
+          <div class="hp-controls">
+            <button type="button" class="hp-btn minus" data-act="hp-mod" data-n="-5" aria-label="Togli 5 PF">−5</button>
+            <button type="button" class="hp-btn minus" data-act="hp-mod" data-n="-1" aria-label="Togli 1 PF">−1</button>
+            <button type="button" class="hp-btn plus" data-act="hp-mod" data-n="1" aria-label="Aggiungi 1 PF">+1</button>
+            <button type="button" class="hp-btn plus" data-act="hp-mod" data-n="5" aria-label="Aggiungi 5 PF">+5</button>
+          </div>
+          <div class="hp-controls">
+            <span class="hp-amount">
+              <input type="number" id="play-hp-inp" min="0" inputmode="numeric" placeholder="PF" aria-label="Quantità di punti ferita">
+              <button type="button" class="btn small" data-act="hp-apply-dmg">Danno</button>
+              <button type="button" class="btn small" data-act="hp-apply-heal">Cura</button>
+              <button type="button" class="btn small" data-act="hp-apply-temp" title="Imposta i PF temporanei">Temp.</button>
+            </span>
+          </div>
+        </div>
+        <div class="vital-stats">
+          ${vital('Classe armatura', s.ac, esc([s.acNote + (st.shield ? ' + scudo' : ''), ...s.acParts].filter(Boolean).join(', ')) + (s.acConditional.length ? ' *' : ''), s.acConditional.length ? 'Condizionali: ' + s.acConditional.join('; ') : '')}
+          ${vital('Iniziativa', sg(s.initiative))}
+          ${vital('Velocità', `${s.speed}<small>ft</small>`, esc([`${Math.round(s.speed * 0.3 * 10) / 10} m`, ...otherSpeeds].join(' · ')))}
+          ${vital('Competenza', sg(s.pb))}
+          ${vital('Percezione passiva', s.passivePerception)}
+          ${vital('Dadi vita', `${s.level - (st.spentHitDice || 0)}<small>/ ${s.level}</small>`, esc(s.hitDice))}
+        </div>
+      </div>
+
+      <div class="conditions-bar" role="group" aria-label="Ispirazione e condizioni">
+        <button type="button" class="condition-chip" data-act="toggle-insp" aria-pressed="${!!st.inspiration}">${ic('star')} Ispirazione</button>
+        ${condList.map(cd => `<button type="button" class="condition-chip" data-act="toggle-cond" data-c="${esc(cd)}" aria-pressed="${conds.includes(cd)}">${esc(cd)}</button>`).join('')}
+      </div>
+
+      <div class="rest-deck">
+        <button type="button" class="btn small" data-act="short-rest">${ic('coffee')} Riposo breve</button>
+        <button type="button" class="btn small" data-act="long-rest">${ic('tent')} Riposo lungo</button>
+        <p class="status-line" id="rest-msg"></p>
+      </div>
+    </div>
+
+    ${s.attacks.length ? `<section class="sec" aria-labelledby="h-atk">
+      <h3 id="h-atk">${ic('sword')} Attacchi</h3>
+      <div class="play-attacks">
+        ${s.attacks.map(a => `<div class="attack-card">
+          <div class="atk-title"><span>${esc(a.name)}</span>${a.prof ? '' : '<span class="badge warn">non competente</span>'}</div>
+          <div class="atk-hit" aria-label="Tiro per colpire">${a.toHit == null ? 'TS CD ' + a.dc : sg(a.toHit)}</div>
+          <div class="atk-dmg">${esc(a.damage)}</div>
+          ${a.notes ? `<div class="atk-notes">${esc(a.notes)}</div>` : ''}
+        </div>`).join('')}
+      </div>
+    </section>` : ''}
+
+    ${s.castings.length && (sl.slots.length || sl.pact) ? `<section class="sec" aria-labelledby="h-slots">
+      <h3 id="h-slots">${ic('spark')} Slot incantesimo <span class="hint">tocca un quadrato per segnarlo usato</span></h3>
+      <div class="slots-interactive">
+        ${sl.slots.map((n, i) => {
+          const lv = i + 1, spent = Math.min(st.spentSlots?.[lv] || 0, n);
+          return `<div class="slot-row" role="group" aria-label="Slot di ${lv}° livello">
+            <span class="slot-label">${lv}° livello</span>
+            <div class="slot-pips">${Array.from({ length: n }, (_, k) => pip('toggle-slot', lv, k, k < spent, `Slot di ${lv}° livello`)).join('')}</div>
+            <span class="slot-count">${n - spent} / ${n}</span>
+          </div>`;
+        }).join('')}
+        ${sl.pact ? (() => { const spent = Math.min(st.spentPact || 0, sl.pact.count); return `<div class="slot-row" role="group" aria-label="Slot del patto">
+          <span class="slot-label">Patto (${sl.pact.level}°)</span>
+          <div class="slot-pips">${Array.from({ length: sl.pact.count }, (_, k) => pip('toggle-pact', 0, k, k < spent, 'Slot del patto')).join('')}</div>
+          <span class="slot-count">${sl.pact.count - spent} / ${sl.pact.count}</span>
+        </div>`; })() : ''}
+      </div>
+    </section>` : ''}
+
+    ${s.limited.length ? `<section class="sec" aria-labelledby="h-res">
+      <h3 id="h-res">${ic('hourglass')} Risorse</h3>
+      <div class="res-list">
+        ${s.limited.map(l => {
+          const maxUses = +l.uses || 1;
+          const spent = st.spentLimited?.[l.name] || 0;
+          const left = Math.max(0, maxUses - spent);
+          return `<div class="res-card">
+            <div>
+              <div class="res-name">${esc(l.name)}</div>
+              <div class="hint">${esc([l.recovery, l.additional].filter(Boolean).join(' · '))}</div>
+            </div>
+            <div class="res-ctrl">
+              <button type="button" class="hp-btn minus" data-act="res-use" data-name="${esc(l.name)}" aria-label="Usa ${esc(l.name)}"${left === 0 ? ' disabled' : ''}>−1</button>
+              <span class="counter${left === 0 ? ' over' : ''}" aria-label="${left} usi rimasti su ${maxUses}">${left} / ${maxUses}</span>
+              <button type="button" class="hp-btn plus" data-act="res-rec" data-name="${esc(l.name)}" aria-label="Recupera ${esc(l.name)}"${spent === 0 ? ' disabled' : ''}>+1</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </section>` : ''}
+  </div>`;
+}
+
+function renderSheet() {
+  const D = data(), s = E.compute(st, D), sg = E.sign;
+  
+  const tabs = `<div class="sheet-bar">
+    <div class="tabs" role="tablist" aria-label="Visualizzazione Scheda">
+      <button type="button" role="tab" id="tab-sheet" aria-controls="panel" data-view="sheet" aria-selected="${view === 'sheet'}" tabindex="${view === 'sheet' ? 0 : -1}">Scheda</button>
+      <button type="button" role="tab" id="tab-bib" aria-controls="panel" data-view="bib" aria-selected="${view === 'bib'}" tabindex="${view === 'bib' ? 0 : -1}">Bibliografia</button>
+    </div>
+    <button type="button" class="btn small to-builder" data-act="jump-forge">${ic('hammer')} Modifica nella Forgia</button>
+  </div>`;
+
+  const panelWrap = content => `${tabs}<div role="tabpanel" id="panel" aria-labelledby="tab-${view}" class="panel">${content}</div>`;
+
+  if (view === 'bib') {
+    $('#sheet').innerHTML = panelWrap(renderBib(s));
+    return;
+  }
+
+  const groups = [];
+  s.features.forEach(f => { let g = groups.find(x => x.source === f.source); if (!g) groups.push(g = { source: f.source, items: [] }); g.items.push(f); });
+  const pers = PERS.filter(([k]) => st.personality[k]);
+  const sl = s.spellSlots;
+  const spellRows = cs => [...(st.classSpells[cs.cls] || []), ...cs.alwaysPrepared.filter(k => !(st.classSpells[cs.cls] || []).includes(k))].map(k => [k, D.spells[k]]).filter(([, x]) => x)
+    .sort((a, b) => a[1].level - b[1].level || a[1].name.localeCompare(b[1].name));
+
+  $('#sheet').innerHTML = panelWrap(`
+    <div class="sh-head">
+      <h2>${esc(st.name || 'Senza nome')}</h2>
+      <div class="meta">${esc(s.title)} <span class="badge">${st.edition === '2024' ? 'Regole 2024' : 'Regole 2014'}${st.mixOther ? ` + opzioni ${otherEd()}` : ''}</span></div>
+    </div>
+    ${st.example ? `<div class="notice">${ic('info')}<span>Personaggio di esempio: modificalo o creane uno nuovo nella Forgia.</span></div>` : ''}
+    ${dataWarning || s.warnings.length ? `<ul class="warns">${[dataWarning, ...s.warnings].filter(Boolean).map(w => `<li>${esc(w)}</li>`).join('')}</ul>` : ''}
+    
+    ${renderPlayCodexDeck(s, D)}
+
+    <div class="abil" role="group" aria-label="Caratteristiche">${E.ABIL.map((a, i) => `<div class="ab-tile" title="${E.ABIL_FULL[i]} ${s.abilities.total[i]}"><span class="k">${E.ABIL_FULL[i].slice(0, 3).toUpperCase()}</span><span class="m">${sg(s.abilities.mods[i])}</span><span class="s">${s.abilities.total[i]}</span></div>`).join('')}</div>
+    <div class="cols">
+      <div class="sec"><h3>Tiri salvezza</h3><ul class="list">${s.saves.map(x => `<li><span class="dot${x.prof ? ' on' : ''}"></span><span class="ab">${x.ab}</span><span>${E.ABIL_FULL[E.ABIL.indexOf(x.ab)]}</span><span class="v">${sg(x.total)}</span></li>`).join('')}</ul></div>
+      <div class="sec"><h3>Abilità</h3><ul class="list">${s.skills.map(x => `<li><span class="dot${x.exp ? ' exp' : x.prof ? ' on' : ''}"></span><span class="ab">${x.abName}</span><span>${esc(x.name)}</span><span class="v">${sg(x.total)}</span></li>`).join('')}</ul></div>
+    </div>
+    ${s.castings.length ? `<div class="sec"><h3>${ic('book')} Incantesimi</h3>
+      ${!sl.slots.length && !sl.pact ? '<p class="hint">Nessuno slot a questo livello.</p>' : ''}
+      ${s.castings.map(cs => `<div class="caster-line"><span>${esc(cs.name)} · caratteristica <b>${cs.ability}</b></span><span>CD tiro salvezza <b>${cs.dc}</b></span><span>Attacco <b>${sg(cs.attack)}</b></span></div>
+        ${spellRows(cs).length ? `<div class="tbl-wrap"><table><thead><tr><th>Liv</th><th>Incantesimo</th><th>Tempo</th><th>Gittata</th><th>Effetto</th></tr></thead><tbody>
+        ${spellRows(cs).map(([k, x]) => `<tr><td class="num">${x.level || 'T'}</td><td>${esc(x.name)}${cs.alwaysPrepared.includes(k) ? ' <span class="badge">sempre</span>' : ''}</td><td>${esc(x.time)}</td><td>${esc(x.range)}</td><td>${esc(s.spellText[k] || x.desc)}${s.spellText[k] ? ' <span class="badge">modificato</span>' : ''}</td></tr>`).join('')}</tbody></table></div>` : ''}`).join('')}</div>` : ''}
+    ${s.grants.some(g => g.chosen.length) ? `<div class="sec"><h3>Incantesimi bonus</h3><div class="tbl-wrap"><table><thead><tr><th>Incantesimo</th><th>Da</th><th>Uso</th><th>Effetto</th></tr></thead><tbody>
+      ${s.grants.flatMap(g => g.chosen.map(k => `<tr><td>${esc(D.spells[k]?.name || k)}${D.spells[k]?.level ? ` <span class="ab">${D.spells[k].level}°</span>` : ''}</td><td>${esc(g.from)}</td><td>${esc([g.note, g.dc ? 'CD ' + g.dc : ''].filter(Boolean).join(' · ') || '—')}</td><td>${esc(D.spells[k]?.desc || '')}</td></tr>`)).join('')}</tbody></table></div></div>` : ''}
+    ${profsHtml(s)}
+    ${inventoryHtml(s, D)}
+    ${petsHtml(s, D)}
+    <div class="sec"><div class="sec-head"><h3>Privilegi e tratti</h3>
+      <span class="btns"><button type="button" class="btn small" data-feat="open">Espandi tutto</button><button type="button" class="btn small" data-feat="close">Comprimi</button></span></div>
+      ${groups.map(g => `<div class="feat-group"><h4>${esc(g.source)} <span class="hint">${g.items.length}</span></h4>${g.items.map(f => `<details class="feat"><summary><span class="lv">L${f.level}</span><span>${esc(f.name)}</span></summary>
+      <div class="d">${md(f.desc)}</div></details>`).join('')}</div>`).join('')}</div>
+    ${pers.length || st.notes ? `<div class="sec"><h3>Personalità</h3><dl class="pers-list">${pers.map(([k, label]) => `<dt>${label}</dt><dd>${esc(st.personality[k])}</dd>`).join('')}
+      ${st.notes ? `<dt>Aspetto e storia</dt><dd class="notes">${esc(st.notes)}</dd>` : ''}</dl></div>` : ''}`);
+}
+
+function renderBib(s) {
+  const b = E.bibliography(st, data());
+  const n = b.books.reduce((t, x) => t + x.entries.length, 0);
+  return `<div class="sh-head"><h2>Bibliografia</h2>
+      <div class="meta">${esc(st.name || 'Senza nome')} · ${esc(s.title)} <span class="badge gold">${n} riferimenti</span></div></div>
+    <p class="hint">Tutte le regole usate dal personaggio con indicazione di manuale e pagina esatta.</p>
+    ${b.books.map(k => `<section class="bib-book"><h3>${esc(k.name)} ${k.url ? `<a href="${esc(k.url)}" target="_blank" rel="noopener">fonte online</a>` : ''}</h3>
+      <ul class="bib">${k.entries.map(e => `<li><span class="pg">${e.page ? 'p. ' + e.page : '—'}</span><span>${esc(e.name)}</span><span class="kind">${esc(e.kind)}</span></li>`).join('')}</ul></section>`).join('')}
+    <section class="bib-book"><h3>Regole di base applicate dal calcolo</h3>
+      <p class="cite">${esc(b.coreBook.name)}: le schede MPMB non indicano le pagine per queste sezioni.</p>
+      <ul class="bib">${b.core.map(([it, en]) => `<li><span class="pg">§</span><span>${esc(it)}</span><span class="kind">${esc(en)}</span></li>`).join('')}</ul></section>`;
+}
+
+// Sources Dialog
+const TYPE_IT = { races: 'Razza', subraces: 'Variante', classes: 'Classe', subclasses: 'Sottoclasse', backgrounds: 'Background', feats: 'Talento', armour: 'Armatura', weapons: 'Arma', spells: 'Incantesimo', feature: 'Privilegio' };
+let srcTab = 'books', srcQ = '', bookQ = '';
+const IDX = {};
+
+function srcIndex() {
+  const ed = st.edition + (st.mixOther ? '+' : '');
+  if (!IDX[ed]) {
+    const list = E.searchIndex(full()), counts = {};
+    list.forEach(e => { if (e.type !== 'feature') new Set(e.src.map(x => x[0])).forEach(c => counts[c] = (counts[c] || 0) + 1); });
+    IDX[ed] = { list, counts };
+  }
+  return IDX[ed];
+}
+const srcAbbr = code => full().sources?.[code]?.abbr || code;
+const refs = src => src.map(([c, p]) => srcAbbr(c) + (p ? ' p. ' + p : '')).join(' · ');
+const hl = (text, q) => { const t = esc(text), i = q ? t.toLowerCase().indexOf(esc(q)) : -1; return i < 0 ? t : t.slice(0, i) + '<mark>' + t.slice(i, i + esc(q).length) + '</mark>' + t.slice(i + esc(q).length); };
+
+function updateSrcBtn() {
+  const all = Object.keys(full().sources || {}), inc = all.filter(c => !st.excludedSources.includes(c));
+  $('#src-open').innerHTML = `${ic('book')}<span class="src-label">Fonti</span> <span class="num">${inc.length}/${all.length}</span>`;
+  $('#src-open').setAttribute('aria-label', `Fonti: ${inc.length} incluse su ${all.length}`);
+}
+
+function srcRow(code, s, q) {
+  const n = srcIndex().counts[code] || 0, on = !st.excludedSources.includes(code);
+  return `<label class="src-row${n ? '' : ' empty'}"><input type="checkbox" data-code="${esc(code)}"${on ? ' checked' : ''}>
+    <span>${hl(s.name, q)}</span><span class="ct" title="Elementi nel builder">${n || '—'}</span>
+    <span></span><span class="ab">${hl(s.abbr || code, q)}${s.date ? ' · ' + esc(String(s.date).slice(0, 4)) : ''}</span></label>`;
+}
+
+function renderBookList() {
+  const S = full().sources || {}, q = bookQ.trim().toLowerCase(), groups = {};
+  Object.entries(S).filter(([k, s]) => !q || (s.name + ' ' + (s.abbr || k) + ' ' + (s.group || '')).toLowerCase().includes(q))
+    .sort((a, b) => String(a[1].date || '').localeCompare(String(b[1].date || '')))
+    .forEach(([k, s]) => (groups[s.group || 'Altro'] ||= []).push([k, s]));
+  $('#src-list').innerHTML = Object.entries(groups).map(([g, rows]) => {
+    const on = rows.filter(([k]) => !st.excludedSources.includes(k)).length;
+    return `<fieldset class="src-group"><legend><input type="checkbox" data-group="${esc(g)}" aria-label="Tutto il gruppo ${esc(g)}"${on === rows.length ? ' checked' : ''}${on && on < rows.length ? ' data-mixed' : ''}>
+      ${esc(g === 'default' ? 'Script personalizzati' : g)} <span class="hint">${on}/${rows.length} incluse</span></legend>
+      <div class="src-rows">${rows.map(([k, s]) => srcRow(k, s, q)).join('')}</div></fieldset>`;
+  }).join('') || '<p class="hint">Nessun libro corrisponde alla ricerca.</p>';
+  document.querySelectorAll('#src-list [data-mixed]').forEach(x => x.indeterminate = true);
+}
+
+function renderFind() {
+  const q = srcQ.trim().toLowerCase(), box = $('#src-results');
+  if (q.length < 2) { box.innerHTML = '<p class="hint">Scrivi almeno 2 lettere: il nome di un incantesimo, privilegio, sottoclasse, razza o talento.</p>'; return; }
+  const S = full().sources || {};
+  const books = Object.entries(S).filter(([k, s]) => (s.name + ' ' + (s.abbr || k)).toLowerCase().includes(q));
+  const bookCodes = new Set(books.map(([k]) => k));
+  const { list } = srcIndex();
+  const hits = list.filter(e => e.text.includes(q) || e.src.some(([c]) => bookCodes.has(c)))
+    .sort((a, b) => (b.name.toLowerCase().startsWith(q) - a.name.toLowerCase().startsWith(q)) || (b.text.includes(q) - a.text.includes(q)) || a.name.localeCompare(b.name));
+  const ex = st.excludedSources, exItems = st.excludedItems;
+  const row = e => {
+    const itemOff = exItems.includes(e.owner || e.type + ':' + e.key);
+    const srcOff = e.src.length && e.src.every(([c]) => ex.includes(c));
+    const state = itemOff ? '<span class="pill off">Elemento escluso</span>' : srcOff ? '<span class="pill off">Fonte esclusa</span>' : '<span class="pill ok">Disponibile</span>';
+    const acts = [
+      ...(srcOff ? [...new Set(e.src.map(x => x[0]))].map(c => `<button type="button" class="btn small" data-inc="${esc(c)}">Includi ${esc(srcAbbr(c))}</button>`) : []),
+      e.type === 'feature' ? '' : itemOff ? `<button type="button" class="btn small" data-initem="${esc(e.type + ':' + e.key)}">Riammetti</button>`
+        : `<button type="button" class="btn small" data-exitem="${esc(e.type + ':' + e.key)}">Escludi elemento</button>`,
+    ].join('');
+    return `<li class="hit"><div><b>${hl(e.name, q)}</b> <span class="ty">${TYPE_IT[e.type] || e.type}${e.parent ? ' · ' + hl(e.parent, q) : ''}</span></div>
+      <div class="refs">${esc(refs(e.src)) || 'senza fonte'}</div><div class="act">${state}${acts}</div></li>`;
+  };
+  box.innerHTML = (books.length ? `<fieldset class="src-group"><legend>Libri</legend><div class="src-rows">${books.map(([k, s]) => srcRow(k, s, q)).join('')}</div></fieldset>` : '')
+    + `<p class="hint" role="status">${hits.length} elementi trovati${hits.length > 80 ? ', mostro i primi 80' : ''}.</p>`
+    + `<ul class="hits">${hits.slice(0, 80).map(row).join('')}</ul>`;
+}
+
+function renderSources() {
+  $('#src-tabs').innerHTML = [['books', 'Libri'], ['find', 'Cerca']].map(([v, l]) => `<button type="button" role="tab" data-srctab="${v}" aria-selected="${srcTab === v}" tabindex="${srcTab === v ? 0 : -1}">${l}</button>`).join('');
+  $('#src-body').innerHTML = srcTab === 'books'
+    ? `<label class="pick mix-toggle"><input type="checkbox" id="src-mix" data-srcmix${st.mixOther ? ' checked' : ''}> <span><b>Campagna mista:</b> includi anche opzioni ${otherEd()} (specie, classi, sottoclassi, background, talenti, incantesimi, armi). Ogni elemento segue le regole della sua edizione.</span></label>
+      <div class="src-tools"><label class="f">Filtra libri<input id="src-bookq" type="search" data-srcin="book" value="${esc(bookQ)}" placeholder="nome, sigla o gruppo…"></label>
+        <button type="button" class="btn small" data-src="all">Includi tutto</button><button type="button" class="btn small" data-src="noua">Solo pubblicati (no UA)</button><button type="button" class="btn small" data-src="srd">Solo SRD</button></div>
+      ${st.excludedItems.length ? `<p class="hint">${st.excludedItems.length} elementi esclusi singolarmente. <button type="button" class="btn small" data-src="clearitems">Riammettili tutti</button></p>` : ''}
+      <div id="src-list"></div>`
+    : `<div class="src-tools"><label class="f">Cerca nelle fonti<input id="src-q" type="search" data-srcin="find" value="${esc(srcQ)}" placeholder="es. chronurgy, misty step, Wildemount…"></label></div>
+      <div id="src-results"></div>`;
+  srcTab === 'books' ? renderBookList() : renderFind();
+}
+
+function sourcesChanged() {
+  render();
+  if (srcTab === 'books') renderBookList(); else renderFind();
+}
+
+$('#src-open').addEventListener('click', () => { const d = $('#src-dlg'); renderSources(); d.showModal ? d.showModal() : d.setAttribute('open', ''); $(srcTab === 'books' ? '#src-bookq' : '#src-q')?.focus(); });
+const dlg = $('#src-dlg');
+dlg.addEventListener('input', e => {
+  const t = e.target;
+  if (t.dataset.srcin === 'book') { bookQ = t.value; renderBookList(); }
+  if (t.dataset.srcin === 'find') { srcQ = t.value; renderFind(); }
+});
+dlg.addEventListener('change', e => {
+  const t = e.target, ex = new Set(st.excludedSources);
+  if (t.dataset.srcmix !== undefined) { st.mixOther = t.checked; render(); renderSources(); $('#src-mix')?.focus(); return; }
+  if (t.dataset.code) { t.checked ? ex.delete(t.dataset.code) : ex.add(t.dataset.code); }
+  else if (t.dataset.group) { Object.entries(full().sources).filter(([, s]) => (s.group || 'Altro') === t.dataset.group).forEach(([k]) => t.checked ? ex.delete(k) : ex.add(k)); }
+  else return;
+  st.excludedSources = [...ex]; sourcesChanged();
+});
+dlg.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const S = full().sources;
+  if (b.dataset.srctab) { srcTab = b.dataset.srctab; renderSources(); $('[data-srctab="' + srcTab + '"]')?.focus(); return; }
+  if (b.dataset.src === 'close') { dlg.close ? dlg.close() : dlg.removeAttribute('open'); return; }
+  if (b.dataset.src === 'all') st.excludedSources = [];
+  else if (b.dataset.src === 'noua') st.excludedSources = E.defaultExcluded(full());
+  else if (b.dataset.src === 'srd') st.excludedSources = Object.keys(S).filter(k => !/^SRD/.test(k));
+  else if (b.dataset.src === 'clearitems') { st.excludedItems = []; render(); renderSources(); return; }
+  else if (b.dataset.inc) st.excludedSources = st.excludedSources.filter(c => c !== b.dataset.inc);
+  else if (b.dataset.exitem) st.excludedItems = [...st.excludedItems, b.dataset.exitem];
+  else if (b.dataset.initem) st.excludedItems = st.excludedItems.filter(x => x !== b.dataset.initem);
+  else return;
+  sourcesChanged();
+});
+
+const render = () => {
+  sanitize();
+  renderEdition();
+  renderBuilder();
+  renderSheet();
+  updateSrcBtn();
+  save();
+};
+
+function setPath(path, val) {
+  const ks = path.split('.'), last = ks.pop();
+  let o = st; for (const k of ks) o = o[k] ||= {};
+  o[last] = val;
+}
+
+// Mode Switcher handlers
+function setAppLayout(mode) {
+  appLayout = mode;
+  try { localStorage.setItem('mpmb-layout', mode); } catch { }
+  $('#app').dataset.layout = mode === 'split' ? 'split' : mode === 'forge' ? 'forge-only' : 'play-only';
+  $$('.nav-btn').forEach(btn => {
+    const isAct = btn.dataset.mode === mode;
+    btn.classList.toggle('active', isAct);
+    btn.setAttribute('aria-pressed', isAct);
+  });
+}
+
+$('#btn-mode-forge').addEventListener('click', () => setAppLayout('forge'));
+$('#btn-mode-play').addEventListener('click', () => setAppLayout('play'));
+$('#btn-mode-split').addEventListener('click', () => setAppLayout('split'));
+function goTo(id, focusField) {
+  if (id === 'sheet' && appLayout === 'forge') setAppLayout('play');
+  if ((id === 'builder' || id.startsWith('step-')) && appLayout === 'play') setAppLayout('forge');
+  const el = document.getElementById(id);
+  el?.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth', block: 'start' });
+  if (focusField) el?.querySelector('select, input, textarea, button')?.focus({ preventScroll: true });
+}
+
+$('#edition').addEventListener('click', e => {
+  const b = e.target.closest('[data-ed]'); if (!b || b.dataset.ed === st.edition) return;
+  st.edition = b.dataset.ed; st.subclass = ''; render();
+});
+
+$('#sheet').addEventListener('click', e => {
+  const g = e.target.closest('[data-goto]');
+  if (g) { goTo(g.dataset.goto); return; }
+  const f = e.target.closest('[data-feat]');
+  if (f) { document.querySelectorAll('#sheet .feat').forEach(d => d.open = f.dataset.feat === 'open'); return; }
+
+  // Play Actions
+  const actBtn = e.target.closest('[data-act]');
+  if (actBtn) {
+    const act = actBtn.dataset.act;
+    const maxHp = E.compute(st, data()).hp;
+    const curHp = Math.min(st.hpCurrent ?? maxHp, maxHp);
+    // keep focus on the control that was used: the sheet re-renders under it
+    const refocus = sel => { renderSheet(); save(); if (sel) $(sel)?.focus(); };
+    const amount = () => { const n = Math.floor(+($('#play-hp-inp')?.value) || 0); return n > 0 ? n : 0; };
+    // damage eats temporary HP first (PHB p. 198)
+    const damage = n => { const absorb = Math.min(+st.hpTemp || 0, n); st.hpTemp = (+st.hpTemp || 0) - absorb; st.hpCurrent = Math.max(0, curHp - (n - absorb)); };
+    const heal = n => { st.hpCurrent = Math.min(maxHp, curHp + n); };
+    const sameBtn = () => `[data-act="${act}"]` + (actBtn.dataset.n ? `[data-n="${actBtn.dataset.n}"]` : '') + (actBtn.dataset.c ? `[data-c="${actBtn.dataset.c}"]` : '') + (actBtn.dataset.lv ? `[data-lv="${actBtn.dataset.lv}"]` : '') + (actBtn.dataset.idx ? `[data-idx="${actBtn.dataset.idx}"]` : '') + (actBtn.dataset.name ? `[data-name="${CSS.escape(actBtn.dataset.name)}"]` : '');
+    if (act === 'hp-mod') {
+      const delta = +actBtn.dataset.n || 0;
+      delta < 0 ? damage(-delta) : heal(delta);
+      refocus(sameBtn()); announce(`Punti ferita: ${st.hpCurrent} su ${maxHp}`); return;
+    }
+    if (act === 'hp-apply-dmg' || act === 'hp-apply-heal' || act === 'hp-apply-temp') {
+      const n = amount();
+      if (!n && act !== 'hp-apply-temp') { $('#play-hp-inp')?.focus(); return; }
+      if (act === 'hp-apply-dmg') damage(n); else if (act === 'hp-apply-heal') heal(n);
+      else st.hpTemp = n; // temporary HP do not stack: the new value replaces the old one (0 clears them)
+      refocus('#play-hp-inp');
+      announce(act === 'hp-apply-temp' ? `Punti ferita temporanei: ${st.hpTemp}` : `Punti ferita: ${st.hpCurrent} su ${maxHp}`);
+      return;
+    }
+    if (act === 'toggle-insp') {
+      st.inspiration = !st.inspiration;
+      refocus(sameBtn()); return;
+    }
+    if (act === 'toggle-cond') {
+      const c = actBtn.dataset.c;
+      const cur = (st.conditions || []).map(x => x === 'Prone' ? 'Prono' : x === 'Privo di Sensi' ? 'Privo di sensi' : x);
+      st.conditions = cur.includes(c) ? cur.filter(x => x !== c) : [...cur, c];
+      refocus(sameBtn()); return;
+    }
+    // slot tracker: tapping a used square restores it (and the ones after it), tapping a free one uses up to it
+    if (act === 'toggle-slot' || act === 'toggle-pact') {
+      const idx = +actBtn.dataset.idx || 0;
+      if (act === 'toggle-slot') {
+        const lv = +actBtn.dataset.lv, spent = st.spentSlots?.[lv] || 0;
+        st.spentSlots ||= {};
+        st.spentSlots[lv] = idx < spent ? idx : idx + 1;
+      } else {
+        const spent = st.spentPact || 0;
+        st.spentPact = idx < spent ? idx : idx + 1;
+      }
+      refocus(sameBtn()); return;
+    }
+    if (act === 'res-use' || act === 'res-rec') {
+      const name = actBtn.dataset.name, lim = E.compute(st, data()).limited.find(l => l.name === name);
+      const maxUses = +lim?.uses || 1;
+      st.spentLimited ||= {};
+      const spent = st.spentLimited[name] || 0;
+      st.spentLimited[name] = act === 'res-use' ? Math.min(maxUses, spent + 1) : Math.max(0, spent - 1);
+      renderSheet(); save();
+      // the pressed button may now be disabled: fall back to its sibling
+      const other = act === 'res-use' ? 'res-rec' : 'res-use', sel = n => `[data-act="${n}"][data-name="${CSS.escape(name)}"]`;
+      ($(sel(act) + ':not(:disabled)') || $(sel(other)))?.focus();
+      return;
+    }
+    if (act === 'short-rest') {
+      st.spentPact = 0;
+      const sc = E.compute(st, data());
+      sc.limited.forEach(l => {
+        if (/short|sr|breve/i.test(l.recovery)) delete st.spentLimited[l.name];
+      });
+      renderSheet(); save();
+      const m1 = 'Riposo breve: slot del patto e risorse a riposo breve ripristinati.';
+      $('#rest-msg').textContent = m1; announce(m1); $('[data-act="short-rest"]')?.focus();
+      return;
+    }
+    if (act === 'long-rest') {
+      st.hpCurrent = maxHp;
+      st.hpTemp = 0;
+      st.spentSlots = {};
+      st.spentPact = 0;
+      st.spentLimited = {};
+      st.spentHitDice = Math.max(0, (st.spentHitDice || 0) - Math.max(1, Math.floor(st.level / 2)));
+      renderSheet(); save();
+      const m2 = 'Riposo lungo: PF al massimo, slot, risorse e metà dei dadi vita ripristinati.';
+      $('#rest-msg').textContent = m2; announce(m2); $('[data-act="long-rest"]')?.focus();
+      return;
+    }
+    if (act === 'jump-forge') { goTo('builder'); return; }
+  }
+
+  const b = e.target.closest('[data-view]'); if (!b) return;
+  view = b.dataset.view; renderSheet(); $('#tab-' + view)?.focus();
+});
+
+$('#sheet').addEventListener('keydown', e => {
+  if (!e.target.matches('[role=tab]') || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+  e.preventDefault();
+  view = e.key === 'Home' ? 'sheet' : e.key === 'End' ? 'bib' : view === 'sheet' ? 'bib' : 'sheet';
+  renderSheet(); $('#tab-' + view)?.focus();
+});
+
+const builder = $('#builder');
+builder.addEventListener('submit', e => e.preventDefault());
+builder.addEventListener('input', e => {
+  const t = e.target;
+  if (t.dataset.filter === 'q') { spellQ = t.value; applySpellFilter(); return; }
+  if (t.dataset.inv !== undefined) {
+    const row = st.inventory[+t.dataset.inv];
+    if (row) { row[t.dataset.f] = t.dataset.f === 'name' ? t.value : +t.value || 0; renderSheet(); save(); }
+    return;
+  }
+  if (t.dataset.xcfilter !== undefined) {
+    const q = t.value.trim().toLowerCase();
+    t.closest('details').querySelectorAll('[data-xcname]').forEach(r => { r.hidden = !!q && !r.dataset.xcname.includes(q); });
+    return;
+  }
+  if (!t.dataset.k || t.tagName === 'SELECT' || t.type === 'checkbox') return;
+  delete st.example;
+  setPath(t.dataset.k, 'num' in t.dataset ? (t.value === '' ? 0 : Number(t.value)) : t.value);
+  renderSheet(); save();
+  const pc = $('#pb-counter');
+  if (pc) { const n = E.pointBuyCost(st.base.map(Number)); pc.textContent = isNaN(n) ? 'valori fuori 8–15' : n + ' / 27'; pc.classList.toggle('over', isNaN(n) || n > 27); }
+});
+
+builder.addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset.filter) {
+    if (t.dataset.filter === 'school') spellSchool = t.value;
+    if (t.dataset.filter === 'ritual') spellRitual = t.checked;
+    if (t.dataset.filter === 'chosen') spellChosen = t.checked;
+    if (t.dataset.filter !== 'q') applySpellFilter();
+    return;
+  }
+  if (t.dataset.fc) { st.featureChoices[t.dataset.fc] = t.value; delete st.example; render(); return; }
+  if (t.dataset.lv) { st.levels[+t.dataset.lv] = t.value; delete st.example; render(); return; }
+  if (t.dataset.sub) { st.subclasses[t.dataset.sub] = t.value; if (t.dataset.sub === st.cls) st.subclass = t.value; render(); return; }
+  if (t.dataset.cs) {
+    const cur = new Set(st.classSpells[t.dataset.cs] || []);
+    t.checked ? cur.add(t.value) : cur.delete(t.value);
+    st.classSpells[t.dataset.cs] = [...cur]; delete st.example; render(); return;
+  }
+  if (t.dataset.miadd !== undefined) {
+    const D = data(), q = t.value.trim().toLowerCase();
+    const key = Object.keys(D.magicItems || {}).find(k => D.magicItems[k].name.toLowerCase() === q);
+    if (key) { st.magicItems.push({ key, attuned: false, choice: '' }); render(); $('#f-mi-add')?.focus(); }
+    return;
+  }
+  if (t.dataset.comp) { st.companions[t.dataset.comp] = t.value; render(); return; }
+  if (t.dataset.miat !== undefined) { st.magicItems[+t.dataset.miat].attuned = t.checked; render(); return; }
+  if (t.dataset.mich !== undefined) { st.magicItems[+t.dataset.mich].choice = t.value; render(); return; }
+  if (t.dataset.gearadd !== undefined) { const g = data().gear?.[t.value]; if (g) { st.inventory.push({ name: g.name, qty: 1, weight: g.weight }); render(); } return; }
+  if (t.dataset.packadd !== undefined) { const pk = data().packs?.[t.value]; if (pk) { pk.items.forEach(x => st.inventory.push({ name: x.name, qty: x.amount, weight: x.weight })); render(); } return; }
+  if (t.dataset.xc) {
+    const k = t.dataset.xc, cur = new Set(st.extraChoices[k] || []);
+    t.checked ? cur.add(t.value) : cur.delete(t.value);
+    st.extraChoices[k] = [...cur]; delete st.example; render(); return;
+  }
+  if (t.dataset.bs) {
+    const arr = [...(st.bonusSpells[t.dataset.bs] || [])];
+    arr[+t.dataset.i] = t.value;
+    st.bonusSpells[t.dataset.bs] = arr; delete st.example; render(); return;
+  }
+  if (t.dataset.pers) {
+    const row = data().backgrounds[st.background][t.dataset.pers]?.[t.value];
+    if (row !== undefined) { st.personality[t.dataset.pers] = persText(row); delete st.example; render(); }
+    return;
+  }
+  if (t.id === 'f-file') {
+    const f = t.files[0]; if (!f) return;
+    f.text().then(txt => importJSON(txt));
+    return;
+  }
+  if (t.dataset.act === 'addWeapon') { if (t.value) st.weapons.push(t.value); }
+  else if (t.dataset.list) {
+    const arr = st[t.dataset.list];
+    if (t.checked) { if (!arr.includes(t.value)) arr.push(t.value); } else st[t.dataset.list] = arr.filter(v => v !== t.value);
+    if (t.dataset.list === 'skills' && !t.checked) st.expertise = st.expertise.filter(v => v !== t.value);
+  }
+  else if (t.dataset.k) {
+    if (t.tagName !== 'SELECT' && t.type !== 'checkbox') return;
+    setPath(t.dataset.k, t.type === 'checkbox' ? t.checked : 'num' in t.dataset ? Number(t.value) : t.value);
+    if (t.dataset.k === 'race') st.subrace = '';
+    if (t.dataset.k === 'cls') { const old = st.levels[0]; st.levels = st.levels.map((k, i) => i === 0 || k === old ? t.value : k); st.subclasses = {}; }
+    if (/\.feat$/.test(t.dataset.k)) setPath(t.dataset.k.replace(/feat$/, 'choice'), '');
+    if (t.dataset.k === 'originFeat') st.originFeatChoice = '';
+    if (t.dataset.k === 'cls') { st.subclass = ''; st.featureChoices = {}; }
+    if (t.dataset.k === 'method') st.base = t.value === 'pointbuy' ? [8, 8, 8, 8, 8, 8] : [15, 14, 13, 12, 10, 8];
+  } else return;
+  delete st.example; render();
+});
+
+builder.addEventListener('click', e => {
+  const setLvlBtn = e.target.closest('[data-setlvl]');
+  if (setLvlBtn) {
+    st.level = +setLvlBtn.dataset.setlvl || 1;
+    delete st.example;
+    render();
+    return;
+  }
+
+  const g = e.target.closest('[data-goto]');
+  if (g) { goTo(g.dataset.goto, true); return; }
+  const b = e.target.closest('[data-act]'); if (!b || b.tagName === 'SELECT') return;
+  const act = b.dataset.act, msg = t => { const m = $('#io-msg'); if (m) m.textContent = t; };
+  if (act !== 'reset') resetArmed = false;
+
+  if (act === 'speedrun-opt') { speedrunOptimizeAbilityScores(); return; }
+  if (act === 'speedrun-equip') { speedrunEquipRecommended(); return; }
+  if (act === 'jump-play') { setAppLayout('play'); window.scrollTo({ top: 0, behavior: reduceMotion() ? 'auto' : 'smooth' }); return; }
+
+  if (act === 'rmWeapon') { st.weapons.splice(+b.dataset.i, 1); render(); }
+  if (act === 'rmItem') { st.magicItems.splice(+b.dataset.i, 1); render(); }
+  if (act === 'addInv') { st.inventory.push({ name: '', qty: 1, weight: 0 }); render(); }
+  if (act === 'rmInv') { st.inventory.splice(+b.dataset.i, 1); render(); }
+  if (act === 'addBgItems') {
+    const bgd = data().backgrounds[st.background];
+    (bgd.items || []).forEach(x => st.inventory.push({ name: x.name, qty: x.amount, weight: x.weight }));
+    if (bgd.gold) st.coins.gp = (+st.coins.gp || 0) + bgd.gold;
+    render();
+  }
+  if (act === 'addStart') {
+    const o = data().classes[st.cls].startOptions[+b.dataset.i], pk = o.pack && data().packs?.[o.pack];
+    o.items.forEach(x => st.inventory.push({ name: x.name, qty: x.amount, weight: x.weight }));
+    if (pk) pk.items.forEach(x => st.inventory.push({ name: x.name, qty: x.amount, weight: x.weight }));
+    if (o.gold) st.coins.gp = (+st.coins.gp || 0) + o.gold;
+    render();
+  }
+  if (act === 'addFeat') { st.extraFeats.push({ feat: '', choice: '' }); render(); $('#f-slot-extra' + (st.extraFeats.length - 1))?.focus(); }
+  if (act === 'rmFeat') { st.extraFeats.splice(+b.dataset.i, 1); render(); }
+  if (act === 'rollPers') {
+    const table = data().backgrounds[st.background][b.dataset.f] || [];
+    if (table.length) { st.personality[b.dataset.f] = persText(table[Math.floor(Math.random() * table.length)]); delete st.example; render(); $('#f-p-' + b.dataset.f)?.focus(); }
+  }
+  if (act === 'roll') {
+    const d6 = () => 1 + Math.floor(Math.random() * 6);
+    st.base = st.base.map(() => { const r = [d6(), d6(), d6(), d6()].sort((a, b) => a - b); return r[1] + r[2] + r[3]; });
+    delete st.example; render();
+  }
+  if (act === 'copy') {
+    const txt = JSON.stringify(st, null, 1);
+    $('#f-json').value = txt;
+    navigator.clipboard?.writeText(txt).then(() => msg('JSON copiato negli appunti.'), () => { $('#f-json').select(); msg('Copia non disponibile: usa Ctrl+C.'); })
+      ?? ($('#f-json').select(), msg('Usa Ctrl+C per copiare.'));
+  }
+  if (act === 'import') importJSON($('#f-json').value);
+  if (act === 'reset') {
+    if (!resetArmed) { resetArmed = true; renderBuilder(); return; }
+    resetArmed = false; st = blank(st.edition); render();
+  }
+});
+
+function importJSON(txt) {
+  try {
+    const c = JSON.parse(txt);
+    if (!ALL[c.edition]) throw new Error('manca "edition" (2014 o 2024)');
+    st = Object.assign(blank(c.edition), c); render();
+    $('#io-msg').textContent = `Importato: ${st.name || 'personaggio senza nome'}.`;
+  } catch (err) { $('#io-msg').textContent = 'JSON non valido: ' + err.message + '.'; }
+}
+
+render();
+try { const m = localStorage.getItem('mpmb-layout'); if (m === 'forge' || m === 'split') setAppLayout(m); } catch { }
+</script>
+</body>
+</html>
